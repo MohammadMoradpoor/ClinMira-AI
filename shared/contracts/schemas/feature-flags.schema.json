@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/feature-flag-snapshot.v1.schema.json",
+  "title": "FeatureFlagSnapshotDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "live_agents",
+    "realtime_transport",
+    "voice_mode",
+    "evaluator_debrief",
+    "faculty_review",
+    "scenario_publish",
+    "agent_control",
+    "advanced_imaging"
+  ],
+  "properties": {
+    "live_agents": { "type": "boolean", "const": false },
+    "realtime_transport": { "type": "boolean", "const": false },
+    "voice_mode": { "type": "boolean", "const": false },
+    "evaluator_debrief": { "type": "boolean", "const": false },
+    "faculty_review": { "type": "boolean", "const": false },
+    "scenario_publish": { "type": "boolean", "const": false },
+    "agent_control": { "type": "boolean", "const": false },
+    "advanced_imaging": { "type": "boolean", "const": false }
+  }
+}

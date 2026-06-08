@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/health-check-response.v1.schema.json",
+  "title": "HealthCheckResponseDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "service",
+    "status",
+    "version",
+    "runtime",
+    "timestamp",
+    "feature_flags",
+    "checks"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "health-check-response.v1" },
+    "service": { "type": "string", "enum": ["api-bff", "agent-worker"] },
+    "status": { "type": "string", "enum": ["ok", "degraded", "blocked"] },
+    "version": { "type": "string", "minLength": 1 },
+    "runtime": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "feature_flags": {
+      "$ref": "feature-flags.schema.json"
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

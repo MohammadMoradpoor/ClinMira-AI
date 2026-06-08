@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/clinical-action.v1.schema.json",
+  "title": "ClinicalActionDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "id",
+    "session_id",
+    "actor_user_id",
+    "action_type",
+    "status",
+    "sequence",
+    "payload",
+    "created_at"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "clinical-action.v1" },
+    "id": { "type": "string", "format": "uuid" },
+    "session_id": { "type": "string", "format": "uuid" },
+    "actor_user_id": { "type": "string", "format": "uuid" },
+    "idempotency_key_id": { "type": "string", "format": "uuid" },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "ask_question",
+        "empathy",
+        "history_question",
+        "exam_observation",
+        "order_attempt",
+        "diagnosis_attempt",
+        "treatment_attempt"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["received", "accepted", "responded", "blocked_unsupported", "failed"]
+    },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "normalized_intent": { "type": "string", "minLength": 1 },
+    "blocked_reason": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

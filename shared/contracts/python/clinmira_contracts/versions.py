@@ -1,0 +1,14 @@
+"""Schema version constants shared by future Python/Pydantic contracts."""
+
+CONTRACT_VERSION_SET = "clinmira-contracts.v0.skeleton"
+OPENAPI_CONTRACT_VERSION = "openapi.clinmira-api.v1"
+API_CONTRACT_VERSION = "api.v1"
+HEALTH_CONTRACT_VERSION = "health-check-response.v1"
+HEALTH_CHECK_RESPONSE_CONTRACT_VERSION = HEALTH_CONTRACT_VERSION
+FEATURE_FLAGS_CONTRACT_VERSION = "feature-flag-snapshot.v1"
+FEATURE_FLAG_SNAPSHOT_CONTRACT_VERSION = FEATURE_FLAGS_CONTRACT_VERSION
+AGENT_RUN_REQUEST_CONTRACT_VERSION = "agent-run-request.v1"
+AGENT_RUN_RESPONSE_CONTRACT_VERSION = "agent-run-response.v1"
+AGENT_CONTEXT_CONTRACT_VERSION = "agent-context.v1"
+AGENT_TRACE_CONTRACT_VERSION = "agent-trace.v1"
+AGENT_ERROR_CONTRACT_VERSION = "agent-error.v1"

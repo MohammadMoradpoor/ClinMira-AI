@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/timeline-event.v1.schema.json",
+  "title": "TimelineEventDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "id",
+    "session_id",
+    "event_type",
+    "title",
+    "payload",
+    "sequence",
+    "created_at"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "timeline-event.v1" },
+    "id": { "type": "string", "format": "uuid" },
+    "session_id": { "type": "string", "format": "uuid" },
+    "clinical_action_id": { "type": "string", "format": "uuid" },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "session.created",
+        "student.action.submitted",
+        "mock_patient.response.created",
+        "fact.revealed",
+        "unsupported_action.blocked",
+        "session.state.snapshotted"
+      ]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

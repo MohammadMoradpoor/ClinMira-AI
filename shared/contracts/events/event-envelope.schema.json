@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/event-envelope.v1.schema.json",
+  "title": "EventEnvelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "institution_id",
+    "stream_type",
+    "stream_id",
+    "sequence",
+    "event_type",
+    "schema_version",
+    "payload_classification",
+    "replayable",
+    "payload",
+    "created_at"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "institution_id": { "type": "string", "format": "uuid" },
+    "stream_type": { "type": "string", "minLength": 1 },
+    "stream_id": { "type": "string", "format": "uuid" },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "event_type": { "type": "string", "minLength": 1 },
+    "schema_version": { "type": "string", "minLength": 1 },
+    "payload_classification": {
+      "type": "string",
+      "enum": [
+        "public",
+        "student_safe",
+        "faculty_only",
+        "safety_restricted",
+        "internal",
+        "audit_only"
+      ]
+    },
+    "replayable": { "type": "boolean" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "trace_id": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 }
+  }
+}

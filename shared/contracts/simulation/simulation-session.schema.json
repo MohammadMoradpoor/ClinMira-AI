@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/simulation-session.v1.schema.json",
+  "title": "SimulationSessionDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "id",
+    "institution_id",
+    "case_id",
+    "case_version_id",
+    "student_user_id",
+    "status",
+    "state_version",
+    "patient_state",
+    "started_at",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "simulation-session.v1" },
+    "id": { "type": "string", "format": "uuid" },
+    "institution_id": { "type": "string", "format": "uuid" },
+    "case_id": { "type": "string", "format": "uuid" },
+    "case_version_id": { "type": "string", "format": "uuid" },
+    "student_user_id": { "type": "string", "format": "uuid" },
+    "status": {
+      "type": "string",
+      "enum": ["active", "completed", "abandoned", "expired", "blocked"]
+    },
+    "state_version": { "type": "integer", "minimum": 1 },
+    "patient_state": {
+      "type": "object",
+      "description": "Backend-filtered projection only. This is never a clinical fact source.",
+      "additionalProperties": true
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "messages": {
+      "type": "array",
+      "items": { "$ref": "conversation-message.schema.json" }
+    },
+    "timeline_events": {
+      "type": "array",
+      "items": { "$ref": "timeline-event.schema.json" }
+    },
+    "revealed_facts": {
+      "type": "array",
+      "items": { "$ref": "revealed-fact-reference.schema.json" }
+    },
+    "state_snapshot": { "$ref": "session-state-snapshot.schema.json" }
+  }
+}

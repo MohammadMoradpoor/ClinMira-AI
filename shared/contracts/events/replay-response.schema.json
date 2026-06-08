@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/replay-response.v1.schema.json",
+  "title": "ReplayResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_id",
+    "audience",
+    "from_sequence_exclusive",
+    "to_sequence_inclusive",
+    "has_more",
+    "events",
+    "gap_detected",
+    "duplicate_count",
+    "next_cursor",
+    "redaction_applied",
+    "snapshot_required"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "clinmira.replay.v1" },
+    "session_id": { "type": "string", "format": "uuid" },
+    "audience": {
+      "type": "string",
+      "enum": [
+        "student",
+        "faculty",
+        "system"
+      ]
+    },
+    "from_sequence_exclusive": { "type": "integer", "minimum": 0 },
+    "to_sequence_inclusive": { "type": "integer", "minimum": 0 },
+    "has_more": { "type": "boolean" },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "replay-event.schema.json" }
+    },
+    "gap_detected": { "type": "boolean" },
+    "duplicate_count": { "type": "integer", "minimum": 0 },
+    "next_cursor": { "$ref": "replay-cursor.schema.json" },
+    "redaction_applied": { "type": "boolean" },
+    "snapshot_required": { "type": "boolean" }
+  }
+}

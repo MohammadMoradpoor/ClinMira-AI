@@ -1,0 +1,42 @@
+{
+  "fixture_id": "clinmira-provider-boundary-gates.v1",
+  "created_for_step": "Step 14",
+  "target_system": "python-agent-worker-provider-boundary",
+  "synthetic_only": true,
+  "release_blocking": true,
+  "requires_live_model": false,
+  "requires_openai": false,
+  "provider_boundary_type": "fake_test_double_only",
+  "cases": [
+    {
+      "case_id": "fake-provider-success",
+      "provider_name": "fake_provider",
+      "mode": "fake",
+      "expected_status": "ok",
+      "requires_safety_precheck": true,
+      "requires_context_firewall": true,
+      "requires_safety_postcheck": true,
+      "must_not_call_live_provider": true
+    },
+    {
+      "case_id": "live-provider-remains-blocked",
+      "provider_name": "disabled_live_provider",
+      "mode": "live",
+      "expected_status": "blocked",
+      "must_not_call_live_provider": true
+    },
+    {
+      "case_id": "provider-boundary-forbidden-capabilities",
+      "provider_name": "fake_provider",
+      "mode": "fake",
+      "forbidden_capabilities": [
+        "tool_call",
+        "external_network",
+        "backend_api_call",
+        "direct_db_mutation",
+        "temporal"
+      ],
+      "expected_status": "blocked"
+    }
+  ]
+}

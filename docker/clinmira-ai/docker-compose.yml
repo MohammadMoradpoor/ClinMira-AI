@@ -1,0 +1,116 @@
+name: clinmira_ai
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: clinmira-ai-postgres
+    environment:
+      POSTGRES_DB: ${CLINMIRA_DOCKER_POSTGRES_DB:-clinmira_ai_docker_dev}
+      POSTGRES_USER: ${CLINMIRA_DOCKER_POSTGRES_USER:-clinmira_ai_docker_user}
+      POSTGRES_PASSWORD: ${CLINMIRA_DOCKER_POSTGRES_PASSWORD:-replace-with-local-only-password}
+    ports:
+      - "127.0.0.1:${CLINMIRA_DOCKER_POSTGRES_HOST_PORT:-55433}:5432"
+    volumes:
+      - clinmira_ai_postgres_data:/var/lib/postgresql/data
+    networks:
+      - clinmira_ai_net
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${CLINMIRA_DOCKER_POSTGRES_USER:-clinmira_ai_docker_user} -d ${CLINMIRA_DOCKER_POSTGRES_DB:-clinmira_ai_docker_dev}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  setup-db:
+    image: postgres:16-alpine
+    profiles:
+      - setup
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: ${CLINMIRA_DOCKER_POSTGRES_DB:-clinmira_ai_docker_dev}
+      PGUSER: ${CLINMIRA_DOCKER_POSTGRES_USER:-clinmira_ai_docker_user}
+      PGPASSWORD: ${CLINMIRA_DOCKER_POSTGRES_PASSWORD:-replace-with-local-only-password}
+      CLINMIRA_EXPECTED_DATABASE: clinmira_ai_docker_dev
+      CLINMIRA_EXPECTED_USER: clinmira_ai_docker_user
+      CLINMIRA_REQUIRE_DB: "true"
+    volumes:
+      - ../../backend/database/migrations:/clinmira/migrations:ro
+      - ../../backend/database/seeds:/clinmira/seeds:ro
+      - ./scripts:/clinmira/scripts:ro
+    networks:
+      - clinmira_ai_net
+    entrypoint: ["/bin/sh", "/clinmira/scripts/apply-db.sh"]
+
+  api:
+    build:
+      context: ../..
+      dockerfile: docker/clinmira-ai/Dockerfile.backend-api
+    container_name: clinmira-ai-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      API_PORT: "3001"
+      NODE_ENV: production
+      CLINMIRA_DATABASE_URL: ${CLINMIRA_DOCKER_DATABASE_URL:-postgresql://clinmira_ai_docker_user:replace-with-local-only-password@postgres:5432/clinmira_ai_docker_dev}
+      CLINMIRA_LIVE_AGENTS_ENABLED: "false"
+      CLINMIRA_OPENAI_PROVIDER_ENABLED: "false"
+      CLINMIRA_LIVE_PROVIDER_KILL_SWITCH: "true"
+    ports:
+      - "127.0.0.1:${CLINMIRA_DOCKER_API_PORT:-41731}:3001"
+    networks:
+      - clinmira_ai_net
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://127.0.0.1:3001/api/v1/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: docker/clinmira-ai/Dockerfile.frontend
+    container_name: clinmira-ai-frontend
+    depends_on:
+      api:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: 0.0.0.0
+      NEXT_PUBLIC_CLINMIRA_API_BASE_URL: http://127.0.0.1:${CLINMIRA_DOCKER_API_PORT:-41731}
+    ports:
+      - "127.0.0.1:${CLINMIRA_DOCKER_FRONTEND_PORT:-41730}:3000"
+    networks:
+      - clinmira_ai_net
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://127.0.0.1:3000/').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+networks:
+  clinmira_ai_net:
+    name: clinmira_ai_net
+
+volumes:
+  clinmira_ai_postgres_data:
+    name: clinmira_ai_postgres_data

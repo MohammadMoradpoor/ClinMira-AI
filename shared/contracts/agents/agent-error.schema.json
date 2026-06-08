@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.clinmira.local/agents/agent-error.v1.schema.json",
+  "title": "AgentError",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "code", "message"],
+  "properties": {
+    "contract_version": {
+      "const": "agent-error.v1"
+    },
+    "code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

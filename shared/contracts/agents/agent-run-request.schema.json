@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.clinmira.local/agents/agent-run-request.v1.schema.json",
+  "title": "AgentRunRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "agent_name", "mode", "context"],
+  "properties": {
+    "contract_version": {
+      "const": "agent-run-request.v1"
+    },
+    "agent_name": {
+      "enum": ["mock_persona", "mock_physiology", "mock_safety", "mock_imaging", "mock_evaluator"]
+    },
+    "mode": {
+      "const": "mock"
+    },
+    "context": {
+      "$ref": "agent-context.schema.json"
+    },
+    "input_text": {
+      "type": "string"
+    },
+    "requested_capabilities": {
+      "type": "array",
+      "items": {
+        "enum": ["mock_response", "mock_placeholder", "local_safety_summary"]
+      }
+    }
+  }
+}

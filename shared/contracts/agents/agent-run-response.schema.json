@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.clinmira.local/agents/agent-run-response.v1.schema.json",
+  "title": "AgentRunResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "agent_name",
+    "agent_role",
+    "mode",
+    "status",
+    "used_fact_ids",
+    "safety_flags",
+    "trace",
+    "errors"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "agent-run-response.v1"
+    },
+    "agent_name": {
+      "enum": ["mock_persona", "mock_physiology", "mock_safety", "mock_imaging", "mock_evaluator"]
+    },
+    "agent_role": {
+      "enum": [
+        "patient_persona",
+        "physiology_placeholder",
+        "safety_adapter_placeholder",
+        "imaging_placeholder",
+        "evaluator_placeholder"
+      ]
+    },
+    "mode": {
+      "const": "mock"
+    },
+    "status": {
+      "enum": ["ok", "blocked", "disabled", "error"]
+    },
+    "output_text": {
+      "type": ["string", "null"]
+    },
+    "structured_output": {
+      "type": "object"
+    },
+    "used_fact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "safety_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trace": {
+      "$ref": "agent-trace.schema.json"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "$ref": "agent-error.schema.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/replay-cursor.v1.schema.json",
+  "title": "ReplayCursor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "after_sequence"
+  ],
+  "properties": {
+    "after_sequence": { "type": "integer", "minimum": 0 }
+  }
+}

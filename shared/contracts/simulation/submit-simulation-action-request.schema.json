@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/submit-simulation-action-request.v1.schema.json",
+  "title": "SubmitSimulationActionRequestDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_type"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "submit-simulation-action-request.v1" },
+    "idempotency_key": { "type": "string", "minLength": 8 },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "ask_question",
+        "empathy",
+        "history_question",
+        "exam_observation",
+        "order_attempt",
+        "diagnosis_attempt",
+        "treatment_attempt"
+      ]
+    },
+    "text": { "type": "string", "minLength": 1 },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "client_sequence": { "type": "integer", "minimum": 1 }
+  }
+}

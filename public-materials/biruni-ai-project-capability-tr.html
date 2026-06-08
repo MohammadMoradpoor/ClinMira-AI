@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="application-name" content="ClinMira AI">
+  <meta name="author" content="ClinMira AI">
+  <meta name="subject" content="Biruni Üniversitesi için yapay zeka ve dijital eğitim projeleri geliştirme yetkinlik özeti">
+  <meta name="keywords" content="Biruni Üniversitesi, ClinMira AI, yapay zeka, dijital eğitim, tıp eğitimi, diş hekimliği eğitimi, prototip, pilot">
+  <meta name="description" content="Biruni Üniversitesi için ClinMira AI örneği ve özel yapay zeka/yazılım proje geliştirme yaklaşımını özetleyen profesyonel Türkçe yetkinlik belgesi.">
+  <title>Biruni Üniversitesi için Yapay Zeka ve Dijital Eğitim Projeleri Geliştirme Yetkinlik Özeti</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #4b5563;
+      --muted-light: #6b7280;
+      --line: #d1d5db;
+      --line-strong: #9ca3af;
+      --surface: #f8fbfb;
+      --surface-2: #f3f4f6;
+      --page-shell: #e5e7eb;
+      --brand: #00b6c6;
+      --brand-dark: #002f34;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+      font-size: 8.85pt;
+      line-height: 1.31;
+      background: var(--page-shell);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .document {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12mm;
+      padding: 12mm 0;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 14mm 16mm 13mm;
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.08);
+      position: relative;
+      break-after: page;
+      page-break-after: always;
+    }
+
+    .page:last-child {
+      break-after: auto;
+      page-break-after: auto;
+    }
+
+    @media print {
+      body { background: #ffffff; }
+      .document {
+        display: block;
+        padding: 0;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+      }
+    }
+
+    .title-block {
+      position: relative;
+      padding-right: 52mm;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 4.2mm;
+      margin-bottom: 5mm;
+      break-inside: avoid;
+    }
+
+    .brand-signature {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8pt;
+      max-width: 50mm;
+      min-height: 31pt;
+      padding: 3pt 6pt 3pt 3pt;
+      border: 0.6pt solid var(--line);
+      background: #ffffff;
+    }
+
+    .brand-signature__logo {
+      width: 31pt;
+      height: 31pt;
+      object-fit: contain;
+      display: block;
+      flex: 0 0 auto;
+      border-radius: 5pt;
+      background: #f8fbfb;
+    }
+
+    .brand-signature__name {
+      font-size: 8pt;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .document-title {
+      margin: 0;
+      max-width: 118mm;
+      font-size: 21px;
+      line-height: 1.09;
+      font-weight: 740;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    .title-meta {
+      margin-top: 3.4mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7mm 10mm;
+      color: var(--muted);
+      font-size: 8.3pt;
+      line-height: 1.28;
+    }
+
+    .title-meta__item { min-width: 35mm; }
+
+    .meta-label,
+    .title-meta__label {
+      display: block;
+      margin-bottom: 1.4pt;
+      color: var(--muted-light);
+      font-size: 7.3pt;
+      font-weight: 700;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+    }
+
+    .title-meta__value {
+      color: var(--ink);
+      font-weight: 560;
+    }
+
+    .intro {
+      margin: 0 0 5mm;
+      padding: 4.6mm 5mm;
+      border: 0.7pt solid var(--line);
+      background: var(--surface);
+    }
+
+    .intro p,
+    .callout p,
+    .boundary p,
+    .closing p { margin: 0; }
+
+    h2 {
+      margin: 6.4pt 0 4.1pt;
+      color: var(--ink);
+      font-size: 12.5px;
+      line-height: 1.18;
+      font-weight: 750;
+      break-after: avoid;
+    }
+
+    h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 11.2px;
+      line-height: 1.22;
+      font-weight: 740;
+    }
+
+    p {
+      margin: 0 0 3.2pt;
+      overflow-wrap: break-word;
+    }
+
+    strong { font-weight: 750; }
+
+    a {
+      color: var(--brand-dark);
+      text-decoration: none;
+      font-weight: 650;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3.4mm;
+      margin-bottom: 4.6mm;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 3mm;
+      margin-bottom: 4.6mm;
+    }
+
+    .card {
+      border: 0.65pt solid var(--line);
+      background: #ffffff;
+      padding: 3.6mm;
+      min-height: 0;
+      break-inside: avoid;
+    }
+
+    .card--strong {
+      border-color: var(--line-strong);
+      background: #ffffff;
+    }
+
+    .card--accent {
+      border-left: 2.2pt solid var(--brand);
+      background: #fbffff;
+    }
+
+    .card p { color: var(--muted); }
+
+    .person-card {
+      min-height: 33mm;
+    }
+
+    .person-name {
+      display: flex;
+      justify-content: space-between;
+      gap: 3mm;
+      align-items: baseline;
+      margin-bottom: 2.3mm;
+    }
+
+    .person-name h3 {
+      font-size: 14px;
+    }
+
+    .placeholder {
+      color: var(--muted-light);
+      font-size: 7.7pt;
+      font-weight: 620;
+    }
+
+    .contact-lines {
+      margin: 2.2mm 0 0;
+      color: var(--muted);
+    }
+
+    .contact-lines p {
+      margin-bottom: 1.4pt;
+    }
+
+    .compact-list {
+      margin: 2pt 0 0 13pt;
+      padding: 0;
+    }
+
+    .compact-list li {
+      margin: 1.45pt 0;
+      padding-left: 1pt;
+    }
+
+    .tag-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.4mm;
+      margin-bottom: 4.6mm;
+    }
+
+    .tag {
+      border: 0.6pt solid var(--line);
+      background: var(--surface-2);
+      padding: 2.4mm 2.8mm;
+      font-size: 8.2pt;
+      line-height: 1.26;
+      font-weight: 650;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 2.4mm;
+      margin: 1.5mm 0 4.8mm;
+    }
+
+    .step {
+      border: 0.65pt solid var(--line);
+      background: #ffffff;
+      padding: 2.9mm;
+      min-height: 29mm;
+    }
+
+    .step-number {
+      display: block;
+      margin-bottom: 1.8mm;
+      color: var(--brand);
+      font-size: 8pt;
+      font-weight: 760;
+      letter-spacing: 0.03em;
+    }
+
+    .step p {
+      margin-top: 2mm;
+      color: var(--muted);
+      font-size: 8pt;
+      line-height: 1.28;
+    }
+
+    .split-section {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3.5mm;
+      margin-bottom: 4.8mm;
+    }
+
+    .agenda {
+      display: grid;
+      grid-template-columns: 25mm 1fr;
+      gap: 1.7mm 3mm;
+      margin: 1.8mm 0 4.8mm;
+      padding: 3.4mm;
+      border: 0.65pt solid var(--line);
+      background: var(--surface);
+    }
+
+    .agenda .time {
+      color: var(--brand-dark);
+      font-weight: 760;
+      font-size: 8.3pt;
+    }
+
+    .boundary {
+      margin-top: 3.5mm;
+      padding: 3.7mm 4mm;
+      border: 0.7pt solid var(--line);
+      background: #ffffff;
+    }
+
+    .closing {
+      margin-top: 3.5mm;
+      padding: 4.4mm 4.8mm;
+      border: 0.75pt solid var(--line-strong);
+      background: #fbffff;
+    }
+
+    .footer {
+      position: absolute;
+      left: 16mm;
+      right: 16mm;
+      bottom: 7.5mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted-light);
+      border-top: 0.6pt solid var(--line);
+      padding-top: 2.3mm;
+      font-size: 7.6pt;
+      letter-spacing: 0.02em;
+    }
+
+    .footer strong {
+      color: var(--brand-dark);
+      font-weight: 740;
+    }
+
+    .section-note {
+      margin: -1pt 0 3.1mm;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main class="document">
+    <section class="page">
+      <header class="title-block">
+        <div class="brand-signature" aria-label="ClinMira AI marka alanı">
+          <img class="brand-signature__logo" src="logo.png" alt="ClinMira logosu">
+          <span class="brand-signature__name">CLINMIRA AI</span>
+        </div>
+
+        <h1 class="document-title">Biruni Üniversitesi için Yapay Zeka ve Dijital Eğitim Projeleri Geliştirme Yetkinlik Özeti</h1>
+        <div class="title-meta">
+          <div class="title-meta__item">
+            <span class="title-meta__label">Belge Durumu</span>
+            <span class="title-meta__value">İlk görüşme ve iş birliği önerisi</span>
+          </div>
+          <div class="title-meta__item">
+            <span class="title-meta__label">Tarih</span>
+            <span class="title-meta__value">Haziran 2026</span>
+          </div>
+          <div class="title-meta__item">
+            <span class="title-meta__label">Kimlik</span>
+            <span class="title-meta__value">ClinMira AI proje ekibi</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="intro">
+        <p>Bu belge, Biruni Üniversitesi için hem <strong>ClinMira AI</strong> adlı yönetimli sanal klinik simülasyon önerisini hem de üniversitenin kendi ihtiyaçlarına göre geliştirilebilecek özel yapay zeka ve yazılım projeleri için çalışma yaklaşımımızı özetler. Amaç, eğitim, klinik beceri kazanımı ve dijital dönüşüm alanlarında düşük riskli, kontrollü ve ölçülebilir prototip/pilot fırsatlarını birlikte değerlendirmektir.</p>
+      </section>
+
+      <h2>Biz kimiz?</h2>
+      <div class="grid-2">
+        <article class="card card--strong person-card">
+          <div class="person-name">
+            <h3>Mina [Soyadı eklenecek]</h3>
+          </div>
+          <p><strong>Biruni Üniversitesi Diş Hekimliği Öğrencisi</strong></p>
+          <p><strong>İletişim bilgisi:</strong> [isteğe bağlı olarak eklenecek]</p>
+        </article>
+        <article class="card card--strong person-card">
+          <div class="person-name">
+            <h3>Mohammad Moradpoor</h3>
+          </div>
+          <p><strong>Full-Stack AI Developer</strong></p>
+          <div class="contact-lines">
+            <p><strong>E-posta:</strong> <a href="mailto:m.moradpoor696@gmail.com">m.moradpoor696@gmail.com</a></p>
+            <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/mohammadmoradpoor">linkedin.com/in/mohammadmoradpoor</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/mohammadmoradpoor">github.com/mohammadmoradpoor</a></p>
+          </div>
+        </article>
+      </div>
+
+      <h2>Bu yaklaşım Biruni için neden faydalı olabilir?</h2>
+      <p class="section-note">Biruni'nin eğitim ve yönetim önceliklerine göre, hızlı ve kontrollü yapay zeka prototipleri değerlendirilebilir; kapsam, hedef kullanıcı ve başarı ölçütleri birlikte netleştirilebilir.</p>
+      <div class="grid-3">
+        <article class="card card--accent">
+          <h3>Eğitim simülasyonu</h3>
+          <p>Tıp ve diş hekimliği eğitiminde sanal klinik, OSCE hazırlığı, vaka temelli öğrenme ve öğrenci pratik araçları pilot olarak denenebilir.</p>
+        </article>
+        <article class="card card--accent">
+          <h3>Fakülte ve değerlendirme</h3>
+          <p>Rubrik, geri bildirim, öğrenci ilerleme analitiği ve öğretim üyesi inceleme panoları kurum ihtiyaçlarına göre uyarlanabilir.</p>
+        </article>
+        <article class="card card--accent">
+          <h3>Dijital dönüşüm</h3>
+          <p>Akademik süreç otomasyonu, çok dilli eğitim materyali, soru üretim araçları ve özel raporlama panoları birlikte tasarlanabilir.</p>
+        </article>
+      </div>
+
+      <h2>Somut örnek: ClinMira AI</h2>
+      <div class="card card--strong">
+        <p><strong>ClinMira AI</strong>, tıp ve diş hekimliği eğitimi için yönetimli bir <strong>Sanal Klinik Simülasyon İşletim Sistemi</strong> olarak önerilir. Sentetik Hasta İkizleri, fakülte kontrollü vaka gerçeği, OSCE benzeri pratik, rubrik temelli geri bildirim, güvenlik kapıları ve yeniden oynatma/denetim izleriyle çalışacak şekilde tasarlanmıştır.</p>
+        <p>ClinMira, gerçek tanı aracı, tıbbi tavsiye ürünü veya gerçek hasta bakımı sistemi değildir; eğitim amaçlı sentetik simülasyon örneğidir. Bu yönüyle, odaklı ve güvenli bir eğitim yapay zekası platformunun nasıl tasarlanıp geliştirilebileceğini göstermektedir.</p>
+      </div>
+
+      <h2>Biruni için değerlendirilebilecek proje kategorileri</h2>
+      <div class="tag-grid">
+        <div class="tag">Sanal klinik ve hasta simülasyonu</div>
+        <div class="tag">OSCE hazırlık ve değerlendirme araçları</div>
+        <div class="tag">Diş hekimliği vaka kütüphanesi ve karar simülasyonu</div>
+        <div class="tag">Öğretim üyesi rubrik ve geri bildirim paneli</div>
+        <div class="tag">Öğrenci ilerleme ve yetkinlik analitiği</div>
+        <div class="tag">Yapay zeka destekli çalışma asistanı</div>
+        <div class="tag">Akademik süreç otomasyonu</div>
+        <div class="tag">Kurum içi özel pano ve raporlama araçları</div>
+      </div>
+
+      <div class="footer">
+        <span><strong>Not:</strong> Örnek kategoriler onaylanmış proje iddiası değildir.</span>
+        <span>1 / 2</span>
+      </div>
+    </section>
+
+    <section class="page">
+      <h2>Nasıl çalışırız?</h2>
+      <div class="flow">
+        <div class="step">
+          <span class="step-number">01</span>
+          <h3>Keşif görüşmesi</h3>
+          <p>İhtiyaç, hedef kullanıcılar, kısıtlar ve öncelikler anlaşılır.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">02</span>
+          <h3>Problem tanımı</h3>
+          <p>Odaklı kullanım alanı, başarı metriği ve pilot kapsamı tanımlanır.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">03</span>
+          <h3>Hızlı prototip</h3>
+          <p>Küçük, tıklanabilir veya işlevsel prototip geliştirilir.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">04</span>
+          <h3>Pilot değerlendirme</h3>
+          <p>Sınırlı öğrenci/fakülte grubuyla, sentetik veya hassas olmayan veriyle denenir.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">05</span>
+          <h3>Genişleme kararı</h3>
+          <p>İterasyon, genişleme, entegrasyon veya durdurma kararı alınır.</p>
+        </div>
+      </div>
+
+      <div class="split-section">
+        <section>
+          <h2>Biruni'den beklenenler</h2>
+          <article class="card card--strong">
+            <ul class="compact-list">
+              <li>Kısa bir tanışma ve keşif görüşmesi.</li>
+              <li>Bir veya iki fakülte ya da idari paydaşın belirlenmesi.</li>
+              <li>Tercih edilen proje alanı veya problem ifadesi.</li>
+              <li>Gerekliyse pilot hedef grubu.</li>
+              <li>Veri/güvenlik sınırları ve akademik geri bildirim.</li>
+              <li>Prototip veya pilot aşamasına devam kararı.</li>
+            </ul>
+          </article>
+        </section>
+        <section>
+          <h2>Bizim sağlayabileceklerimiz</h2>
+          <article class="card card--strong">
+            <ul class="compact-list">
+              <li>Fikir netleştirme ve ürün tasarımı.</li>
+              <li>Prototip geliştirme ve kullanıcı deneyimi tasarımı.</li>
+              <li>Ön yüz/arka uç uygulama geliştirme.</li>
+              <li>Yapay zeka iş akışı, sentetik simülasyon mantığı ve pano/raporlama.</li>
+              <li>Pilot desteği ve geri bildirime göre iterasyon.</li>
+              <li>Teknik örnek ve kaynak paylaşımı için GitHub bağlantısı kullanılabilir.</li>
+            </ul>
+          </article>
+        </section>
+      </div>
+
+      <h2>Önerilen ilk görüşme gündemi</h2>
+      <div class="agenda">
+        <div class="time">5 dakika</div>
+        <div>Tanışma, ekip ve görüşmenin amacı.</div>
+        <div class="time">10 dakika</div>
+        <div>ClinMira AI örneği ve sanal klinik simülasyon yaklaşımı.</div>
+        <div class="time">10 dakika</div>
+        <div>Biruni'nin olası ihtiyaçları, öncelikleri ve uygun kullanım alanları.</div>
+        <div class="time">10 dakika</div>
+        <div>Aday prototip/pilot başlıkları, hedef kullanıcı ve başarı ölçütleri.</div>
+        <div class="time">5 dakika</div>
+        <div>Sonraki adım, sorumlu kişiler ve iletişim yöntemi.</div>
+      </div>
+
+      <div class="split-section">
+        <section class="closing">
+          <h2>Saygılı iş birliği çağrısı</h2>
+          <p>Amacımız, Biruni Üniversitesi'nin önceliklerine uygun, düşük riskli ve ölçülebilir bir yapay zeka eğitim projesi alanını birlikte belirlemek; uygun görülürse bunu kısa sürede prototip veya pilot çalışmaya dönüştürmektir.</p>
+          <p>İlk adım olarak ClinMira AI örneğini kısaca sunmak ve Biruni'nin kendi fikirlerini, ihtiyaçlarını veya iç önceliklerini dinlemek isteriz.</p>
+        </section>
+        <section class="boundary">
+          <h2>Sınırlar ve notlar</h2>
+          <ul class="compact-list">
+            <li>Bu belge iş birliği önerisidir; bağlayıcı ticari teklif değildir.</li>
+            <li>Mina, Biruni diş hekimliği öğrencisi olarak öğrenci perspektifi sunar; Biruni adına resmi temsil iddiası yoktur.</li>
+            <li>İlk öneri veya gösterim için gerçek hasta verisi gerekmez.</li>
+            <li>ClinMira eğitim simülasyonudur; tıbbi tavsiye veya tanı aracı değildir.</li>
+            <li>Gelecek entegrasyon, uyumluluk, veri ve kurumsal yayılım başlıkları Biruni'nin ilgili birimleriyle ayrıca ele alınmalıdır.</li>
+            <li>Fiyatlandırma bu belgede yer almaz.</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="card card--accent">
+        <span class="meta-label">İletişim</span>
+        <p><strong>Mina [Soyadı eklenecek]:</strong> Biruni Üniversitesi Diş Hekimliği Öğrencisi. <strong>İletişim bilgisi:</strong> [isteğe bağlı olarak eklenecek]</p>
+        <p><strong>Mohammad Moradpoor:</strong> Full-Stack AI Developer</p>
+        <p><strong>E-posta:</strong> <a href="mailto:m.moradpoor696@gmail.com">m.moradpoor696@gmail.com</a> &nbsp; | &nbsp; <strong>LinkedIn:</strong> <a href="https://linkedin.com/in/mohammadmoradpoor">linkedin.com/in/mohammadmoradpoor</a> &nbsp; | &nbsp; <strong>GitHub:</strong> <a href="https://github.com/mohammadmoradpoor">github.com/mohammadmoradpoor</a></p>
+      </section>
+
+      <div class="footer">
+        <span>ClinMira AI proje ekibi | Biruni için yapay zeka proje geliştirme önerisi</span>
+        <span>2 / 2</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

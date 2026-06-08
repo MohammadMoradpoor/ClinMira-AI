@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/replay-event.v1.schema.json",
+  "title": "ReplayEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "sequence",
+    "event_type",
+    "occurred_at",
+    "payload_classification",
+    "payload",
+    "redaction_applied"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "event_type": { "type": "string", "minLength": 1 },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "payload_classification": {
+      "type": "string",
+      "enum": [
+        "public",
+        "student_safe",
+        "faculty_only",
+        "safety_restricted",
+        "internal",
+        "audit_only"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "redaction_applied": { "type": "boolean" },
+    "event_schema_version": { "type": "string", "minLength": 1 },
+    "trace_id": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 }
+  }
+}

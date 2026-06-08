@@ -1,0 +1,505 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ClinMira API/BFF Contract",
+    "version": "1.0.0",
+    "description": "Health endpoints plus approved Step 8B mock simulation runtime endpoints. Live agents, realtime, replay, debrief, faculty, imaging, order, treatment, and eval routes are intentionally not defined."
+  },
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local API/BFF"
+    }
+  ],
+  "x-clinmira-contract-version": "openapi.clinmira-api.v1",
+  "x-clinmira-scope": "health-plus-step-8b-mock-simulation",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Read API/BFF health.",
+        "description": "Returns health status and gated feature flags. This endpoint exposes no clinical data.",
+        "tags": ["health"],
+        "responses": {
+          "200": {
+            "description": "Health response.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HealthCheckResponseDto" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "getVersionedHealth",
+        "summary": "Read versioned API/BFF health.",
+        "description": "Versioned health endpoint for contract checks.",
+        "tags": ["health"],
+        "responses": {
+          "200": {
+            "description": "Health response.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HealthCheckResponseDto" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulation-sessions": {
+      "post": {
+        "operationId": "createSimulationSession",
+        "summary": "Create a mock simulation session.",
+        "description": "Creates backend-owned mock simulation state using PostgreSQL. Requires temporary Step 8B actor headers; this is not production auth.",
+        "tags": ["simulation"],
+        "parameters": [
+          { "$ref": "#/components/parameters/ClinMiraInstitutionIdHeader" },
+          { "$ref": "#/components/parameters/ClinMiraUserIdHeader" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateSimulationSessionRequestDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Student-safe simulation session projection.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SimulationSessionDto" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/SimulationError" },
+          "404": { "$ref": "#/components/responses/SimulationError" },
+          "503": { "$ref": "#/components/responses/SimulationError" }
+        }
+      }
+    },
+    "/api/v1/simulation-sessions/{id}": {
+      "get": {
+        "operationId": "getSimulationSession",
+        "summary": "Read a mock simulation session.",
+        "description": "Returns student-safe session, message, timeline, revealed fact reference, and snapshot projections for the temporary Step 8B actor.",
+        "tags": ["simulation"],
+        "parameters": [
+          { "$ref": "#/components/parameters/ClinMiraInstitutionIdHeader" },
+          { "$ref": "#/components/parameters/ClinMiraUserIdHeader" },
+          { "$ref": "#/components/parameters/SimulationSessionIdPath" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Student-safe simulation session projection.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SimulationSessionDto" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/SimulationError" },
+          "404": { "$ref": "#/components/responses/SimulationError" },
+          "503": { "$ref": "#/components/responses/SimulationError" }
+        }
+      }
+    },
+    "/api/v1/simulation-sessions/{id}/actions": {
+      "post": {
+        "operationId": "submitSimulationAction",
+        "summary": "Submit a deterministic mock simulation action.",
+        "description": "Persists a student action, deterministic mock response, timeline events, snapshots, idempotency state when supplied, event_log rows, and outbox_events rows.",
+        "tags": ["simulation"],
+        "parameters": [
+          { "$ref": "#/components/parameters/ClinMiraInstitutionIdHeader" },
+          { "$ref": "#/components/parameters/ClinMiraUserIdHeader" },
+          { "$ref": "#/components/parameters/SimulationSessionIdPath" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SubmitSimulationActionRequestDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Student-safe deterministic turn result.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SimulationTurnResultDto" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/SimulationError" },
+          "404": { "$ref": "#/components/responses/SimulationError" },
+          "409": { "$ref": "#/components/responses/SimulationError" },
+          "503": { "$ref": "#/components/responses/SimulationError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "ClinMiraInstitutionIdHeader": {
+        "name": "x-clinmira-institution-id",
+        "in": "header",
+        "required": true,
+        "description": "Temporary Step 8B actor institution id. This is not production authentication.",
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "ClinMiraUserIdHeader": {
+        "name": "x-clinmira-user-id",
+        "in": "header",
+        "required": true,
+        "description": "Temporary Step 8B actor user id. This is not production authentication.",
+        "schema": { "type": "string", "format": "uuid" }
+      },
+      "SimulationSessionIdPath": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Simulation session id.",
+        "schema": { "type": "string", "format": "uuid" }
+      }
+    },
+    "responses": {
+      "SimulationError": {
+        "description": "Safe simulation error response.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/SimulationErrorDto" }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "FeatureFlagSnapshotDto": {
+        "title": "FeatureFlagSnapshotDto",
+        "x-clinmira-contract-version": "feature-flag-snapshot.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "live_agents",
+          "realtime_transport",
+          "voice_mode",
+          "evaluator_debrief",
+          "faculty_review",
+          "scenario_publish",
+          "agent_control",
+          "advanced_imaging"
+        ],
+        "properties": {
+          "live_agents": { "type": "boolean", "const": false },
+          "realtime_transport": { "type": "boolean", "const": false },
+          "voice_mode": { "type": "boolean", "const": false },
+          "evaluator_debrief": { "type": "boolean", "const": false },
+          "faculty_review": { "type": "boolean", "const": false },
+          "scenario_publish": { "type": "boolean", "const": false },
+          "agent_control": { "type": "boolean", "const": false },
+          "advanced_imaging": { "type": "boolean", "const": false }
+        }
+      },
+      "HealthCheckResponseDto": {
+        "title": "HealthCheckResponseDto",
+        "x-clinmira-contract-version": "health-check-response.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_version",
+          "service",
+          "status",
+          "version",
+          "runtime",
+          "timestamp",
+          "feature_flags",
+          "checks"
+        ],
+        "properties": {
+          "contract_version": { "type": "string", "const": "health-check-response.v1" },
+          "service": { "type": "string", "enum": ["api-bff", "agent-worker"] },
+          "status": { "type": "string", "enum": ["ok", "degraded", "blocked"] },
+          "version": { "type": "string", "minLength": 1 },
+          "runtime": { "type": "string", "minLength": 1 },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "feature_flags": { "$ref": "#/components/schemas/FeatureFlagSnapshotDto" },
+          "checks": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      },
+      "CreateSimulationSessionRequestDto": {
+        "title": "CreateSimulationSessionRequestDto",
+        "x-clinmira-contract-version": "create-simulation-session-request.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["case_version_id"],
+        "properties": {
+          "contract_version": { "type": "string", "const": "create-simulation-session-request.v1" },
+          "case_version_id": { "type": "string", "format": "uuid" },
+          "idempotency_key": { "type": "string", "minLength": 8 },
+          "client_request_id": { "type": "string", "minLength": 1 }
+        }
+      },
+      "SimulationSessionDto": {
+        "title": "SimulationSessionDto",
+        "x-clinmira-contract-version": "simulation-session.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_version",
+          "id",
+          "institution_id",
+          "case_id",
+          "case_version_id",
+          "student_user_id",
+          "status",
+          "state_version",
+          "patient_state",
+          "started_at",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "contract_version": { "type": "string", "const": "simulation-session.v1" },
+          "id": { "type": "string", "format": "uuid" },
+          "institution_id": { "type": "string", "format": "uuid" },
+          "case_id": { "type": "string", "format": "uuid" },
+          "case_version_id": { "type": "string", "format": "uuid" },
+          "student_user_id": { "type": "string", "format": "uuid" },
+          "status": { "type": "string", "enum": ["active", "completed", "abandoned", "expired", "blocked"] },
+          "state_version": { "type": "integer", "minimum": 1 },
+          "patient_state": {
+            "type": "object",
+            "description": "Backend-filtered projection only. This is never a clinical fact source.",
+            "additionalProperties": true
+          },
+          "started_at": { "type": "string", "format": "date-time" },
+          "completed_at": { "type": "string", "format": "date-time" },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "messages": { "type": "array", "items": { "$ref": "#/components/schemas/ConversationMessageDto" } },
+          "timeline_events": { "type": "array", "items": { "$ref": "#/components/schemas/TimelineEventDto" } },
+          "revealed_facts": { "type": "array", "items": { "$ref": "#/components/schemas/RevealedFactReferenceDto" } },
+          "state_snapshot": { "$ref": "#/components/schemas/SessionStateSnapshotDto" }
+        }
+      },
+      "SubmitSimulationActionRequestDto": {
+        "title": "SubmitSimulationActionRequestDto",
+        "x-clinmira-contract-version": "submit-simulation-action-request.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action_type"],
+        "properties": {
+          "contract_version": { "type": "string", "const": "submit-simulation-action-request.v1" },
+          "idempotency_key": { "type": "string", "minLength": 8 },
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "ask_question",
+              "empathy",
+              "history_question",
+              "exam_observation",
+              "order_attempt",
+              "diagnosis_attempt",
+              "treatment_attempt"
+            ]
+          },
+          "text": { "type": "string", "minLength": 1 },
+          "payload": { "type": "object", "additionalProperties": true },
+          "client_sequence": { "type": "integer", "minimum": 1 }
+        }
+      },
+      "SimulationTurnResultDto": {
+        "title": "SimulationTurnResultDto",
+        "x-clinmira-contract-version": "simulation-turn-result.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_version",
+          "session",
+          "action",
+          "messages",
+          "timeline_events",
+          "revealed_facts",
+          "state_snapshot"
+        ],
+        "properties": {
+          "contract_version": { "type": "string", "const": "simulation-turn-result.v1" },
+          "session": { "$ref": "#/components/schemas/SimulationSessionDto" },
+          "action": { "$ref": "#/components/schemas/ClinicalActionDto" },
+          "messages": { "type": "array", "items": { "$ref": "#/components/schemas/ConversationMessageDto" } },
+          "timeline_events": { "type": "array", "items": { "$ref": "#/components/schemas/TimelineEventDto" } },
+          "revealed_facts": { "type": "array", "items": { "$ref": "#/components/schemas/RevealedFactReferenceDto" } },
+          "state_snapshot": { "$ref": "#/components/schemas/SessionStateSnapshotDto" }
+        }
+      },
+      "ClinicalActionDto": {
+        "title": "ClinicalActionDto",
+        "x-clinmira-contract-version": "clinical-action.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_version",
+          "id",
+          "session_id",
+          "actor_user_id",
+          "action_type",
+          "status",
+          "sequence",
+          "payload",
+          "created_at"
+        ],
+        "properties": {
+          "contract_version": { "type": "string", "const": "clinical-action.v1" },
+          "id": { "type": "string", "format": "uuid" },
+          "session_id": { "type": "string", "format": "uuid" },
+          "actor_user_id": { "type": "string", "format": "uuid" },
+          "idempotency_key_id": { "type": "string", "format": "uuid" },
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "ask_question",
+              "empathy",
+              "history_question",
+              "exam_observation",
+              "order_attempt",
+              "diagnosis_attempt",
+              "treatment_attempt"
+            ]
+          },
+          "status": { "type": "string", "enum": ["received", "accepted", "responded", "blocked_unsupported", "failed"] },
+          "sequence": { "type": "integer", "minimum": 1 },
+          "payload": { "type": "object", "additionalProperties": true },
+          "normalized_intent": { "type": "string", "minLength": 1 },
+          "blocked_reason": { "type": "string", "minLength": 1 },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ConversationMessageDto": {
+        "title": "ConversationMessageDto",
+        "x-clinmira-contract-version": "conversation-message.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_version",
+          "id",
+          "session_id",
+          "speaker",
+          "visibility",
+          "status",
+          "content",
+          "used_fact_ids",
+          "sequence",
+          "created_at"
+        ],
+        "properties": {
+          "contract_version": { "type": "string", "const": "conversation-message.v1" },
+          "id": { "type": "string", "format": "uuid" },
+          "session_id": { "type": "string", "format": "uuid" },
+          "clinical_action_id": { "type": "string", "format": "uuid" },
+          "speaker": { "type": "string", "enum": ["student", "mock_patient", "system"] },
+          "visibility": { "type": "string", "enum": ["student_safe", "internal", "faculty_only"] },
+          "status": { "type": "string", "enum": ["pending", "streaming", "completed", "failed", "blocked"] },
+          "content": { "type": "string", "minLength": 1 },
+          "used_fact_ids": { "type": "array", "items": { "type": "string", "format": "uuid" }, "uniqueItems": true },
+          "sequence": { "type": "integer", "minimum": 1 },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "TimelineEventDto": {
+        "title": "TimelineEventDto",
+        "x-clinmira-contract-version": "timeline-event.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["contract_version", "id", "session_id", "event_type", "title", "payload", "sequence", "created_at"],
+        "properties": {
+          "contract_version": { "type": "string", "const": "timeline-event.v1" },
+          "id": { "type": "string", "format": "uuid" },
+          "session_id": { "type": "string", "format": "uuid" },
+          "clinical_action_id": { "type": "string", "format": "uuid" },
+          "event_type": {
+            "type": "string",
+            "enum": [
+              "session.created",
+              "student.action.submitted",
+              "mock_patient.response.created",
+              "fact.revealed",
+              "unsupported_action.blocked",
+              "session.state.snapshotted"
+            ]
+          },
+          "title": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "payload": { "type": "object", "additionalProperties": true },
+          "sequence": { "type": "integer", "minimum": 1 },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "SessionStateSnapshotDto": {
+        "title": "SessionStateSnapshotDto",
+        "x-clinmira-contract-version": "session-state-snapshot.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["contract_version", "id", "session_id", "state_version", "reason", "snapshot", "created_at"],
+        "properties": {
+          "contract_version": { "type": "string", "const": "session-state-snapshot.v1" },
+          "id": { "type": "string", "format": "uuid" },
+          "session_id": { "type": "string", "format": "uuid" },
+          "state_version": { "type": "integer", "minimum": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "snapshot": {
+            "type": "object",
+            "description": "Projection only. The canonical clinical fact source remains fact_ledger.",
+            "additionalProperties": true
+          },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "RevealedFactReferenceDto": {
+        "title": "RevealedFactReferenceDto",
+        "x-clinmira-contract-version": "revealed-fact-reference.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["contract_version", "session_id", "fact_id", "revealed_to", "reveal_reason", "created_at"],
+        "properties": {
+          "contract_version": { "type": "string", "const": "revealed-fact-reference.v1" },
+          "session_id": { "type": "string", "format": "uuid" },
+          "fact_id": { "type": "string", "format": "uuid" },
+          "reveal_rule_id": { "type": "string", "format": "uuid" },
+          "revealed_by_action_id": { "type": "string", "format": "uuid" },
+          "revealed_to": {
+            "type": "string",
+            "enum": ["student_payload", "mock_patient_context", "safety_context", "evaluator_context"]
+          },
+          "reveal_reason": { "type": "string", "minLength": 1 },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "SimulationErrorDto": {
+        "title": "SimulationErrorDto",
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["message"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "message": {
+            "oneOf": [
+              { "type": "string", "minLength": 1 },
+              { "type": "array", "items": { "type": "string" } }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

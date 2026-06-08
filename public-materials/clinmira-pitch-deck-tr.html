@@ -1,0 +1,1452 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="application-name" content="ClinMira AI">
+  <meta name="author" content="ClinMira AI">
+  <meta name="description" content="Biruni Üniversitesi için ClinMira AI öneri sunumu - tıp ve diş hekimliği eğitiminde yönetimli Sanal Klinik Simülasyon İşletim Sistemi.">
+  <title>ClinMira AI | Biruni Üniversitesi Öneri Sunumu | Haziran 2026</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --page: #f4f4f4;
+      --ink: #0a0a0a;
+      --text: #171717;
+      --muted: #525252;
+      --soft: #737373;
+      --quiet: #a3a3a3;
+      --line: #e5e5e5;
+      --line-strong: #d4d4d4;
+      --surface: #f7f7f7;
+      --surface-2: #fafafa;
+      --brand: #00b6c6;
+      --brand-dark: #002f34;
+      --brand-ink: #071416;
+      --brand-soft: #e6fbfd;
+      --font-sans: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      --font-mono: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --footer-h: 44px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .deck {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      padding: 28px clamp(16px, calc((100vw - 1280px) / 2), 72px) 60px;
+    }
+
+    .slide {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid rgba(0,0,0,0.08);
+      scroll-margin-top: 24px;
+    }
+
+    .slide-cover {
+      background: var(--brand-dark);
+      color: #ffffff;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .slide-number {
+      position: absolute;
+      top: 18px;
+      left: 60px;
+      z-index: 2;
+      color: var(--quiet);
+      font: 500 11px/1 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .slide-cover .slide-number { color: rgba(255,255,255,0.44); }
+
+    .slide-body {
+      position: absolute;
+      top: 50px;
+      left: 60px;
+      right: 60px;
+      bottom: calc(var(--footer-h) + 12px);
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      overflow: hidden;
+    }
+
+    .slide-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--footer-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      border-top: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--quiet);
+      font: 500 11px/1 var(--font-mono);
+      letter-spacing: 0.05em;
+    }
+
+    .slide-cover .slide-footer {
+      border-top-color: rgba(255,255,255,0.12);
+      background: var(--brand-dark);
+      color: rgba(255,255,255,0.48);
+    }
+
+    .topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 28px;
+      flex-shrink: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--soft);
+      font: 600 11px/1.2 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .headline {
+      margin: 0;
+      max-width: 980px;
+      color: var(--ink);
+      font-size: 38px;
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .headline-wide { max-width: 1080px; }
+    .headline-tight { max-width: 820px; }
+    .slide-cover .headline { color: #ffffff; }
+
+    .subheadline {
+      margin: 8px 0 0;
+      max-width: 800px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.46;
+      letter-spacing: 0;
+    }
+
+    .slide-cover .subheadline { color: rgba(255,255,255,0.78); }
+
+    .small-note,
+    .source-line {
+      margin: 0;
+      flex-shrink: 0;
+      color: var(--quiet);
+      font: 500 9.5px/1.42 var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--bg);
+      padding: 14px;
+      min-height: 0;
+    }
+
+    .card-strong { border-color: rgba(0,0,0,0.18); }
+    .card-bold { border: 2px solid var(--ink); }
+
+    .card h3,
+    .card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.18;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .card p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12.7px;
+      line-height: 1.42;
+      letter-spacing: 0;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--quiet);
+      font: 600 10px/1.2 var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 27px;
+      padding: 0 9px;
+      border: 1px solid var(--line-strong);
+      color: var(--soft);
+      background: var(--surface-2);
+      font: 600 9.5px/1 var(--font-mono);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .note-strip,
+    .tech-strip,
+    .category-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .note-strip p,
+    .tech-strip p,
+    .category-strip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.36;
+    }
+
+    .note-strip strong,
+    .tech-strip strong,
+    .category-strip strong { color: var(--ink); }
+
+    .cover-body {
+      justify-content: center;
+      align-items: center;
+      gap: 23px;
+      text-align: center;
+    }
+
+    .cover-logo {
+      width: 104px;
+      height: 104px;
+      object-fit: contain;
+      display: block;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+    }
+
+    .brand-wordmark {
+      margin: 0;
+      color: #ffffff;
+      font-size: 60px;
+      line-height: 1.06;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .brand-accent { color: var(--brand); }
+
+    .cover-tagline {
+      margin: 0;
+      max-width: 820px;
+      color: rgba(255,255,255,0.84);
+      font-size: 22px;
+      line-height: 1.38;
+    }
+
+    .cover-meta {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .cover-meta .round {
+      color: rgba(255,255,255,0.68);
+      font: 500 12.5px/1.35 var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+
+    .cover-confidential {
+      margin: 0;
+      max-width: 720px;
+      color: rgba(255,255,255,0.46);
+      font: 500 10.5px/1.45 var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+
+    .three-grid,
+    .proof-grid,
+    .pricing-grid,
+    .phase-grid,
+    .icp-grid,
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 13px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .two-grid,
+    .thesis-layout,
+    .problem-layout,
+    .solution-layout,
+    .architecture-layout,
+    .agentic-layout,
+    .matrix-layout,
+    .funding-layout,
+    .close-layout {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+      gap: 15px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .thesis-hero,
+    .primary-panel,
+    .ask-hero,
+    .close-panel {
+      border: 2px solid var(--ink);
+      padding: 18px;
+      background: #ffffff;
+      min-height: 0;
+    }
+
+    .thesis-hero h3,
+    .primary-panel h3,
+    .ask-hero .ask,
+    .close-panel h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 29px;
+      line-height: 1.09;
+      font-weight: 700;
+    }
+
+    .thesis-hero p,
+    .primary-panel p,
+    .ask-hero p,
+    .close-panel p {
+      margin: 11px 0 0;
+      color: var(--muted);
+      font-size: 13.4px;
+      line-height: 1.42;
+    }
+
+    .stack {
+      display: grid;
+      gap: 13px;
+      min-height: 0;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 9px;
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+    }
+
+    .flow-step strong {
+      display: block;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.14;
+    }
+
+    .flow-step p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 11.3px;
+      line-height: 1.31;
+    }
+
+    .buyer-strip,
+    .wedge-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      border: 1px solid var(--line);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .buyer-strip div,
+    .wedge-strip div {
+      padding: 11px 10px;
+      border-right: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11.4px;
+      line-height: 1.3;
+    }
+
+    .buyer-strip div:last-child,
+    .wedge-strip div:last-child { border-right: 0; }
+
+    .buyer-strip strong,
+    .wedge-strip strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 12.5px;
+    }
+
+    .system-rail {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0,1fr));
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .system-step {
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      padding: 11px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .system-step.primary {
+      border: 2px solid var(--ink);
+      background: #ffffff;
+    }
+
+    .system-step .num {
+      color: var(--brand);
+      font: 700 12px/1 var(--font-mono);
+      margin-bottom: 16px;
+    }
+
+    .system-step strong {
+      color: var(--ink);
+      font-size: 14.5px;
+      line-height: 1.12;
+    }
+
+    .system-step p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 11.2px;
+      line-height: 1.3;
+    }
+
+    .product-surface {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 13px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .app-topbar {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      color: var(--soft);
+      font: 600 10.5px/1 var(--font-mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1.2fr) minmax(0,0.8fr);
+      gap: 12px;
+      margin-top: 12px;
+      min-height: 0;
+    }
+
+    .ui-panel,
+    .mini-panel {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      padding: 12px;
+      min-height: 0;
+    }
+
+    .ui-panel h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.12;
+    }
+
+    .ui-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+      margin: 9px 0;
+    }
+
+    .ui-meta div,
+    .ui-row {
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      padding: 8px;
+      color: var(--muted);
+      font-size: 11.4px;
+      line-height: 1.28;
+    }
+
+    .ui-meta strong,
+    .ui-row strong,
+    .mini-panel strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 11.5px;
+    }
+
+    .task-list,
+    .detail-list,
+    .status-list,
+    .execution-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .mini-panel p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 10.9px;
+      line-height: 1.3;
+    }
+
+    .right-stack {
+      display: grid;
+      grid-template-rows: repeat(4, minmax(0,1fr));
+      gap: 9px;
+      min-height: 0;
+    }
+
+    .status-list div,
+    .execution-list div,
+    .detail-list div {
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      padding: 7px 8px;
+      color: var(--muted);
+      font-size: 11.6px;
+      line-height: 1.31;
+    }
+
+    .status-list strong,
+    .execution-list strong,
+    .detail-list strong { color: var(--ink); }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .evidence-card {
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #ffffff;
+      padding: 12px;
+      min-height: 0;
+    }
+
+    .evidence-card h3 {
+      margin: 0 0 7px;
+      color: var(--ink);
+      font-size: 15.8px;
+      line-height: 1.15;
+    }
+
+    .evidence-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.33;
+    }
+
+    .blocked {
+      border-color: #f2c8c8;
+      background: #fff8f8;
+    }
+
+    .wedge-hero {
+      display: grid;
+      grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr);
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .primary-wedge {
+      border: 2px solid var(--ink);
+      padding: 18px;
+      min-height: 112px;
+    }
+
+    .primary-wedge h3 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 25px;
+      line-height: 1.12;
+    }
+
+    .primary-wedge p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14.4px;
+      line-height: 1.4;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      padding: 12px;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--ink);
+      font-size: 26px;
+      line-height: 1.05;
+      margin: 2px 0 4px;
+    }
+
+    .metric span:last-child {
+      color: var(--muted);
+      font-size: 11.1px;
+      line-height: 1.24;
+    }
+
+    .matrix-card {
+      position: relative;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .matrix-grid {
+      position: absolute;
+      left: 58px;
+      right: 20px;
+      top: 34px;
+      bottom: 54px;
+      border-left: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+      background-size: 25% 25%;
+    }
+
+    .axis-label {
+      position: absolute;
+      color: var(--soft);
+      font: 600 10.5px/1 var(--font-mono);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .axis-left { left: 8px; bottom: 38px; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .axis-right { left: 8px; top: 20px; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .axis-bottom-left { left: 54px; bottom: 8px; }
+    .axis-bottom-right { right: 18px; bottom: 8px; }
+
+    .matrix-point {
+      position: absolute;
+      width: 168px;
+      padding: 9px 10px;
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 11.2px;
+      line-height: 1.28;
+    }
+
+    .matrix-point strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.1;
+    }
+
+    .matrix-point.clinmira {
+      border: 2px solid var(--brand-dark);
+      width: 192px;
+    }
+
+    .comparison {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.6px;
+      line-height: 1.25;
+    }
+
+    .comparison th,
+    .comparison td {
+      border-bottom: 1px solid var(--line);
+      padding: 7px 6px;
+      text-align: left;
+      color: var(--muted);
+      vertical-align: top;
+    }
+
+    .comparison th {
+      color: var(--ink);
+      background: var(--surface);
+      font-weight: 700;
+    }
+
+    .fund-bar {
+      display: flex;
+      height: 28px;
+      margin: 9px 0 10px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .fund-bar span:nth-child(1) { background: #002f34; }
+    .fund-bar span:nth-child(2) { background: #005a64; }
+    .fund-bar span:nth-child(3) { background: #009aaa; }
+    .fund-bar span:nth-child(4) { background: #00b6c6; }
+    .fund-bar span:nth-child(5) { background: #42d5df; }
+    .fund-bar span:nth-child(6) { background: #8debf0; }
+    .fund-bar .segment-1 { background: #002f34; }
+    .fund-bar .segment-2 { background: #005a64; }
+    .fund-bar .segment-3 { background: #009aaa; }
+    .fund-bar .segment-4 { background: #00b6c6; }
+    .fund-bar .segment-5 { background: #42d5df; }
+    .fund-bar .segment-6 { background: #8debf0; }
+
+    .fund-row {
+      display: grid;
+      grid-template-columns: 12px minmax(0,1fr) 72px;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11.6px;
+    }
+
+    .fund-row:last-child { border-bottom: 0; }
+    .fund-row strong { color: var(--ink); text-align: right; }
+    .swatch { width: 12px; height: 12px; background: var(--brand); display: block; }
+    .fund-row:nth-child(1) .swatch { background: #002f34; }
+    .fund-row:nth-child(2) .swatch { background: #005a64; }
+    .fund-row:nth-child(3) .swatch { background: #009aaa; }
+    .fund-row:nth-child(4) .swatch { background: #00b6c6; }
+    .fund-row:nth-child(5) .swatch { background: #42d5df; }
+    .fund-row:nth-child(6) .swatch { background: #8debf0; }
+    .swatch.swatch-1 { background: #002f34; }
+    .swatch.swatch-2 { background: #005a64; }
+    .swatch.swatch-3 { background: #009aaa; }
+    .swatch.swatch-4 { background: #00b6c6; }
+    .swatch.swatch-5 { background: #42d5df; }
+    .swatch.swatch-6 { background: #8debf0; }
+
+    .slide-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      padding: 8px;
+      background: rgba(244,244,244,0.86);
+      backdrop-filter: blur(10px);
+    }
+
+    .slide-nav a {
+      width: 28px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.94);
+      color: var(--soft);
+      text-decoration: none;
+      font: 600 10px/1 var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+
+    .slide-nav a:hover {
+      color: var(--ink);
+      border-color: rgba(0,0,0,0.20);
+    }
+
+    @page { size: 13.333in 7.5in; margin: 0; }
+
+    @media print {
+      body { background: #ffffff; }
+      .deck { display: block; padding: 0; }
+      .slide {
+        width: 1280px;
+        height: 720px;
+        margin: 0;
+        border: 0;
+        break-after: page;
+        page-break-after: always;
+      }
+      .slide-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="slide-nav" aria-label="Slayt dizini">
+    <a href="#slide-01" aria-label="Slayt 1">01</a>
+    <a href="#slide-02" aria-label="Slayt 2">02</a>
+    <a href="#slide-03" aria-label="Slayt 3">03</a>
+    <a href="#slide-04" aria-label="Slayt 4">04</a>
+    <a href="#slide-05" aria-label="Slayt 5">05</a>
+    <a href="#slide-06" aria-label="Slayt 6">06</a>
+    <a href="#slide-07" aria-label="Slayt 7">07</a>
+    <a href="#slide-08" aria-label="Slayt 8">08</a>
+    <a href="#slide-09" aria-label="Slayt 9">09</a>
+    <a href="#slide-10" aria-label="Slayt 10">10</a>
+    <a href="#slide-11" aria-label="Slayt 11">11</a>
+    <a href="#slide-12" aria-label="Slayt 12">12</a>
+    <a href="#slide-13" aria-label="Slayt 13">13</a>
+    <a href="#slide-14" aria-label="Slayt 14">14</a>
+  </nav>
+
+  <main class="deck">
+    <section class="slide slide-cover" id="slide-01">
+      <div class="slide-number">01 / 14</div>
+      <div class="slide-body cover-body">
+        <img class="cover-logo" src="logo.png" alt="ClinMira logosu">
+        <h1 class="brand-wordmark">ClinMira <span class="brand-accent">AI</span></h1>
+        <p class="cover-tagline">Biruni Üniversitesi için Yönetimli Sanal Klinik Simülasyon Önerisi</p>
+        <div class="cover-meta">
+          <div class="round">Rektörlük ve üst akademik liderlik görüşmesi | İstanbul | Haziran 2026</div>
+          <div class="round">Sentetik Hasta İkizleri | OSCE hazırlığı | Fakülte kontrollü vaka gerçeği</div>
+          <div class="round">Tıp ve diş hekimliği eğitiminde güvenli, ölçülebilir ve tekrarlanabilir pratik</div>
+        </div>
+        <p class="cover-confidential">ClinMira AI; gerçek hasta verisi, gerçek tanı, klinik karar destek veya hasta bakım önerisi ürünü olarak sunulmaz.</p>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Sanal Klinik Simülasyon İşletim Sistemi</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-02">
+      <div class="slide-number">02 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Klinik eğitim ihtiyacı</div>
+            <h2 class="headline headline-wide">Öğrenciler güvenli tekrar ister; fakülte kontrol, ölçme ve yönetişim ister.</h2>
+          </div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-step">
+            <span class="label">Tekrar</span>
+            <strong>Vaka çeşitliliği sınırlıdır</strong>
+            <p>Her öğrencinin farklı klinik durumları güvenli ortamda tekrar tekrar çalışması gerekir.</p>
+          </div>
+          <div class="flow-step">
+            <span class="label">Tutarlılık</span>
+            <strong>Aynı vaka herkese aynı sunulmaz</strong>
+            <p>Manuel uygulamada vaka akışı, geri bildirim dili ve zorluk düzeyi değişebilir.</p>
+          </div>
+          <div class="flow-step">
+            <span class="label">Ölçme</span>
+            <strong>Yetkinlik görünür olmalıdır</strong>
+            <p>Anamnez, iletişim, güvenlik ve akıl yürütme rubriklerle izlenebilir hale gelmelidir.</p>
+          </div>
+          <div class="flow-step">
+            <span class="label">Güven</span>
+            <strong>Serbest YZ yeterli değildir</strong>
+            <p>Kontrolsüz sohbet, gizli olguları açabilir veya eğitim sınırını aşan iddialar üretebilir.</p>
+          </div>
+          <div class="flow-step">
+            <span class="label">Yönetişim</span>
+            <strong>Denetlenebilir kayıt gerekir</strong>
+            <p>Öğrenci aksiyonları, güvenlik uyarıları ve geri bildirimler sonradan incelenebilmelidir.</p>
+          </div>
+        </div>
+        <div class="buyer-strip">
+          <div><strong>Öğrenci</strong>Güvenli ve gerçekçi pratik.</div>
+          <div><strong>Fakülte</strong>Vaka, rubrik ve geri bildirim kontrolü.</div>
+          <div><strong>Program</strong>Yetkinlik ve kohort görünürlüğü.</div>
+          <div><strong>Kurum</strong>Veri sınırı ve akademik denetim.</div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Öneri çerçevesi:</strong> ClinMira AI, gerçek bakım otomasyonu değil; sentetik vakalarla eğitim, ölçme ve geri bildirim altyapısıdır.</p>
+          <span class="pill">Eğitim amaçlı simülasyon</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Klinik eğitim ihtiyacı</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-03">
+      <div class="slide-number">03 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Neden Biruni?</div>
+            <h2 class="headline headline-wide">ClinMira AI, Biruni'nin sağlık eğitimi odağıyla doğal olarak hizalanır.</h2>
+          </div>
+        </div>
+        <div class="thesis-layout">
+          <article class="thesis-hero">
+            <span class="label">Stratejik uyum</span>
+            <h3>Tıp ve diş hekimliği için ortak, kontrollü ve ölçülebilir simülasyon katmanı.</h3>
+            <p>Biruni'nin resmi akademik yapısında tıp ve diş hekimliği eğitimi öne çıkar. ClinMira, bu iki alanda öğrencilerin güvenli tekrar yapmasını ve öğretim üyelerinin vaka gerçeği ile değerlendirmeyi yönetmesini hedefleyen bir eğitim platformu olarak konumlanır.</p>
+          </article>
+          <div class="stack">
+            <article class="card card-strong">
+              <span class="label">Program uyumu</span>
+              <h3>Tıp + diş hekimliği senaryoları.</h3>
+              <p>Anamnez, ayırıcı düşünme, dental ağrı, oral tanı, iletişim ve acil triyaj gibi eğitim hedefleri aynı yönetişim modeliyle yapılandırılabilir.</p>
+            </article>
+            <article class="card card-strong">
+              <span class="label">Dil ve kalite odağı</span>
+              <h3>Türkçe ve İngilizce hazırlığa uyarlanabilir.</h3>
+              <p>Senaryo dili, terminoloji ve çözümleme içeriği Biruni'nin program ihtiyaçlarına göre yapılandırılabilir; kalite döngüsü rubrik ve fakülte incelemesiyle desteklenir.</p>
+            </article>
+          </div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Kişiselleştirme ilkesi:</strong> Sayısal kapasite, öğrenci grubu ve vaka alanları Biruni paydaşlarıyla doğrulanmadan kesin taahhüt olarak sunulmaz.</p>
+          <span class="pill">Biruni için hazırlanmıştır</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Stratejik uyum</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-04">
+      <div class="slide-number">04 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Biruni için önerilen değer</div>
+            <h2 class="headline headline-wide">Daha fazla pratik, daha tutarlı ölçme ve daha görünür eğitim kalitesi.</h2>
+          </div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><span class="label">Kapasite</span><strong>Tekrar</strong><span>fiziksel simülasyon saatlerinin dışında kontrollü vaka pratiği</span></div>
+          <div class="metric"><span class="label">Kalite</span><strong>Standart</strong><span>fakülte onaylı vaka, rubrik ve çözümleme dili</span></div>
+          <div class="metric"><span class="label">Hazırlık</span><strong>OSCE</strong><span>istasyon benzeri süreli görüşme ve geri bildirim</span></div>
+          <div class="metric"><span class="label">Yönetişim</span><strong>Denetim</strong><span>yeniden oynatma, iz ve fakülte kalibrasyonu</span></div>
+        </div>
+        <div class="phase-grid">
+          <article class="card card-strong">
+            <span class="label">Öğrenci kazanımı</span>
+            <h3>Klinik görüşme becerisi gelişir.</h3>
+            <p>Öğrenci düşük riskli ortamda daha fazla vaka görür; iletişim, anamnez ve güvenli karar sıralaması pratiği yapar.</p>
+          </article>
+          <article class="card card-strong">
+            <span class="label">Fakülte kazanımı</span>
+            <h3>Geri bildirim yükü yapılandırılır.</h3>
+            <p>Öğretim üyeleri rubrik, çözümleme ve oturum izleri üzerinden daha tutarlı inceleme yapabilir.</p>
+          </article>
+          <article class="card card-strong">
+            <span class="label">Kurum kazanımı</span>
+            <h3>Program sinyali görünür olur.</h3>
+            <p>Kohort analitiği, zayıf alanlar ve vaka zorluğu program iyileştirme kararlarına eğitim sinyali sağlayabilir.</p>
+          </article>
+        </div>
+        <div class="note-strip">
+          <p><strong>Kullanım sınırı:</strong> Değer önerisi sentetik eğitim içindir; gerçek tanı, hasta bakımı veya öğretim üyesinin yerini alma iddiası içermez.</p>
+          <span class="pill">Üniversite odaklı değer</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Önerilen değer</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-05">
+      <div class="slide-number">05 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Ürün akışı</div>
+            <h2 class="headline headline-wide">Sunumda göstereceğimiz akış: vakadan çözümlemeye, fakülte incelemesine.</h2>
+          </div>
+          <span class="pill">Canlı gösterim akışı</span>
+        </div>
+        <div class="system-rail">
+          <div class="system-step primary"><span class="num">01</span><strong>Vaka atanır</strong><p>Öğrenci fakülte onaylı sentetik vakayı açar.</p></div>
+          <div class="system-step"><span class="num">02</span><strong>Sanal klinik</strong><p>Sentetik Hasta İkizi ile görüşme başlar.</p></div>
+          <div class="system-step"><span class="num">03</span><strong>Anamnez ve karar</strong><p>Soru, muayene, istem veya görüntüleme adımı denenir.</p></div>
+          <div class="system-step"><span class="num">04</span><strong>Güvenlik kapısı</strong><p>Riskli veya kapsam dışı hamle yönlendirilir.</p></div>
+          <div class="system-step"><span class="num">05</span><strong>Çözümleme</strong><p>Rubrik ve kanıta dayalı geri bildirim görünür.</p></div>
+          <div class="system-step"><span class="num">06</span><strong>Fakülte incelemesi</strong><p>Oturum izi, rubrik ve kohort sinyalleri incelenir.</p></div>
+        </div>
+        <div class="product-surface">
+          <div class="app-topbar">
+            <span>Sanal klinik oturumu | Sentetik eğitim vakası</span>
+            <span>Fakülte kontrollü vaka gerçeği</span>
+          </div>
+          <div class="ui-meta">
+            <div><strong>Öğrenci ekranı</strong>Vaka hedefi, görüşme, karar denemesi ve çözümleme.</div>
+            <div><strong>Güvenlik katmanı</strong>Gizli olgu koruması, bağlam duvarı ve eğitim sınırı.</div>
+            <div><strong>Fakülte ekranı</strong>Yeniden oynatma, rubrik, kalibrasyon ve kohort görünümü.</div>
+          </div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Gösterim amacı:</strong> Teori yerine, öğrencinin ve öğretim üyesinin gerçekten hangi akıştan geçeceğini görünür kılmak.</p>
+          <span class="pill">Karar dostu gösterim</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Ürün akışı</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-06">
+      <div class="slide-number">06 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Öğrenci deneyimi</div>
+            <h2 class="headline headline-wide">Öğrenci, sentetik Hasta İkiziyle gerçekçi ama güvenli klinik görüşme pratiği yapar.</h2>
+          </div>
+          <span class="pill">Sanal klinik</span>
+        </div>
+        <div class="product-surface">
+          <div class="app-topbar">
+            <span>Sanal klinik | Sentetik eğitim modu</span>
+            <span>Gerçek hasta verisi yok</span>
+          </div>
+          <div class="product-grid">
+            <div class="ui-panel">
+              <span class="label">Öğrenci oturumu</span>
+              <h3>Sentetik Hasta İkizi: dental ağrı veya akut başvuru senaryosu</h3>
+              <div class="ui-meta">
+                <div><strong>Görüşme</strong>Anamnez, iletişim ve klinik akıl yürütme pratiği</div>
+                <div><strong>Karar</strong>Muayene, istem, görüntüleme veya tedavi adımı simülasyonu</div>
+                <div><strong>Geri bildirim</strong>Rubrik, güvenlik uyarısı ve çözümleme</div>
+              </div>
+              <div class="task-list">
+                <div class="ui-row"><strong>Tekrar</strong>Öğrenci aynı yetkinliği farklı vakalarla düşük riskli ortamda çalışabilir.</div>
+                <div class="ui-row"><strong>Hazırlık</strong>OSCE benzeri süreli görev, iletişim ve klinik akıl yürütme pratiği desteklenebilir.</div>
+                <div class="ui-row"><strong>Dil</strong>Türkçe öncelikli deneyim; İngilizce senaryo ve terminoloji pilot kapsamına göre yapılandırılabilir.</div>
+              </div>
+            </div>
+            <div class="right-stack">
+              <div class="mini-panel"><strong>Hasta persona</strong><p>Semptom, duygu durumu, iletişim tarzı ve eğitim hedefiyle uyumlu sentetik hasta davranışı.</p></div>
+              <div class="mini-panel"><strong>Klinik akıl yürütme</strong><p>Öğrenci soruları, hipotezleri ve karar sırası kanıta bağlanabilir.</p></div>
+              <div class="mini-panel"><strong>Güvenlik farkındalığı</strong><p>Riskli veya eğitim sınırını aşan aksiyonlar uyarı ve açıklamayla ele alınabilir.</p></div>
+              <div class="mini-panel"><strong>İlerleme</strong><p>Öğrenci tekrar, eksik soru, rubrik ve çalışma önerisi üzerinden gelişimini izleyebilir.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="tech-strip">
+          <p><strong>Öğrenci sınırı:</strong> Tüm vakalar sentetiktir; platform gerçek hasta verisiyle tanı veya tedavi önerisi üretmek için kullanılmaz.</p>
+          <span class="pill">Sentetik Hasta İkizleri</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Öğrenci deneyimi</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-07">
+      <div class="slide-number">07 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Fakülte deneyimi</div>
+            <h2 class="headline headline-wide">Öğretim üyesi vaka gerçeğini, rubriği ve geri bildirim döngüsünü yönetir.</h2>
+          </div>
+        </div>
+        <div class="agentic-layout">
+          <div class="primary-panel">
+            <span class="label">Fakülte kontrolü</span>
+            <h3>Simülasyonun klinik gerçeği modelden değil, fakülte onaylı vakadan gelir.</h3>
+            <p>Öğretim üyeleri senaryo hedeflerini, gizli olguları, açılma kurallarını, puanlama rubriklerini ve çözümleme beklentilerini belirleyebilir. Öğrenci performansı bireysel ve kohort düzeyinde izlenebilir.</p>
+          </div>
+          <div class="stack">
+            <article class="card card-strong">
+              <h3>Vaka tasarımı ve kalibrasyon</h3>
+              <p>Tıp ve diş hekimliği programlarına özel vaka setleri, OSCE istasyonları ve yetkinlik hedefleri pilot kapsamına göre hazırlanabilir.</p>
+            </article>
+            <article class="card card-strong">
+              <h3>Rubrik ve değerlendirme</h3>
+              <p>İletişim, anamnez, ayırıcı düşünme, güvenlik ve klinik karar sıralaması rubriklerle ölçülebilir.</p>
+            </article>
+            <article class="card card-strong">
+              <h3>İnceleme ve çözümleme</h3>
+              <p>Fakülte, öğrenci oturumlarını yeniden oynatma iziyle inceleyebilir; geri bildirim içeriğini kalibre edebilir.</p>
+            </article>
+          </div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Önerilen yönetişim:</strong> Pilot öncesi vaka onay komitesi, rubrik standardı ve eğitim sınırı birlikte tanımlanmalıdır.</p>
+          <span class="pill">Fakülte sahipli gerçek</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Fakülte deneyimi</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-08">
+      <div class="slide-number">08 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Yönetimli yapay zeka mimarisi</div>
+            <h2 class="headline headline-wide">ClinMira AI basit sohbet botu değildir; kontrollü eğitim yapay zekasıdır.</h2>
+          </div>
+        </div>
+        <div class="architecture-layout">
+          <div class="primary-panel">
+            <span class="label">Kontrol modeli</span>
+            <h3>Kodla orkestre edilen simülasyon denetmeni akışı yönetir.</h3>
+            <p>Denetmen; öğrenci aksiyonunu sınıflandırır, izinli olguyu seçer, güvenlik kapısını çalıştırır, gerekli sınırlı uzman ajanı araç olarak çağırır, durum geçişini uygular ve denetlenebilir izi kaydeder.</p>
+          </div>
+          <div class="stack">
+            <article class="card card-strong">
+              <h3>Sınırlı uzman ajanlar</h3>
+              <p>Hasta persona, fizyoloji, görüntüleme, güvenlik, değerlendirici ve çözümleme bileşenleri yalnız dar görev ve izinli bağlamla çalışacak şekilde tasarlanır.</p>
+            </article>
+            <article class="card card-strong">
+              <h3>Fakülte kontrollü vaka gerçeği</h3>
+              <p>Hasta davranışı ve açılan bilgiler, fakülte tarafından yönetilen sentetik vaka gerçeklerine dayanır; model kontrolsüz klinik gerçek oluşturmaz.</p>
+            </article>
+            <article class="card card-strong">
+              <h3>Ajan gözlemlenebilirliği</h3>
+              <p>Ajan çağrıları, kararlar, güvenlik uyarıları ve redakte edilmiş izler eğitim denetimi için incelenebilir hale getirilebilir.</p>
+            </article>
+          </div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Açık ayrım:</strong> ClinMira AI'ın değeri serbest YZ sohbeti değil; vaka gerçeği, fakülte kuralları, güvenlik kapıları ve denetlenebilir eğitim akışıdır.</p>
+          <span class="pill">Sohbet botu değil</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Yönetimli YZ</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-09">
+      <div class="slide-number">09 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Güvenlik ve yönetişim modeli</div>
+            <h2 class="headline headline-wide">Gizli olgular, bağlam duvarı ve güvenlik kapıları eğitim bütünlüğünü korur.</h2>
+          </div>
+        </div>
+        <div class="system-rail">
+          <div class="system-step"><span class="num">01</span><strong>Olgu defteri</strong><p>Gizli, açık ve değerlendiriciye özel bilgiler ayrı tutulur.</p></div>
+          <div class="system-step"><span class="num">02</span><strong>Açılma kuralları</strong><p>Bulgu, yalnız doğru öğrenci aksiyonu veya senaryo adımıyla görünür.</p></div>
+          <div class="system-step primary"><span class="num">03</span><strong>Güvenlik kapısı</strong><p>Riskli veya eğitim sınırı dışı hamleler durdurulur ya da uyarılır.</p></div>
+          <div class="system-step"><span class="num">04</span><strong>Bağlam duvarı</strong><p>Gizli tanı, öğretim üyesi notu ve iç değerlendirme öğrenciye sızmaz.</p></div>
+          <div class="system-step"><span class="num">05</span><strong>Redakte izler</strong><p>Ajan ve sistem izleri hassas bilgileri maskeleyerek incelenebilir.</p></div>
+          <div class="system-step"><span class="num">06</span><strong>Denetim</strong><p>Oturum yeniden oynatılabilir; kritik kararlar kanıta bağlanır.</p></div>
+        </div>
+        <div class="three-grid">
+          <article class="card card-strong">
+            <span class="label">Eğitim bütünlüğü</span>
+            <h3>Gizli tanı erken verilmez.</h3>
+            <p>Öğrencinin doğru soruyu sorması, doğru muayene veya istem adımını seçmesi beklenir.</p>
+          </article>
+          <article class="card card-strong">
+            <span class="label">Klinik sınır</span>
+            <h3>Gerçek bakım önerisi üretilmez.</h3>
+            <p>Simülasyon çıktıları eğitim amaçlıdır; gerçek tanı veya tedavi kararı yerine geçmez.</p>
+          </article>
+          <article class="card card-strong">
+            <span class="label">Kurum güveni</span>
+            <h3>Denetlenebilir kayıt hedeflenir.</h3>
+            <p>Fakülte ve program yöneticileri oturumları kalite ve kalibrasyon amacıyla inceleyebilir.</p>
+          </article>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Güvenlik ve yönetişim</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10">
+      <div class="slide-number">10 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Tıp ve diş hekimliği kullanım alanları</div>
+            <h2 class="headline headline-wide">Aynı güvenli simülasyon katmanı farklı klinik eğitim hedeflerine uyarlanabilir.</h2>
+          </div>
+        </div>
+        <div class="icp-grid">
+          <article class="card card-strong">
+            <h3>Diş hekimliği senaryoları</h3>
+            <div class="detail-list">
+              <div><strong>Örnek:</strong> dental ağrı, oral tanı, endodontik karar, periodontoloji ve acil triyaj.</div>
+              <div><strong>Simülasyon:</strong> görüntüleme bulgusu, tedavi seçeneği ve güvenlik sınırı yapılandırılabilir.</div>
+              <div><strong>Değer:</strong> öğrenci, tedavi kararından önce anamnez ve risk farkındalığı pratiği yapar.</div>
+            </div>
+          </article>
+          <article class="card card-strong">
+            <h3>Tıp senaryoları</h3>
+            <div class="detail-list">
+              <div><strong>Örnek:</strong> anamnez, ayırıcı tanı düşünme, kırmızı bayrak, iletişim ve takip planı.</div>
+              <div><strong>Simülasyon:</strong> vital bulgu, laboratuvar veya görüntüleme adımı gelecek fazda yapılandırılabilir.</div>
+              <div><strong>Değer:</strong> öğrenci, kanıta dayalı sorgulama ve güvenli yönlendirme pratiği yapar.</div>
+            </div>
+          </article>
+          <article class="card card-strong">
+            <h3>Ortak eğitim hedefleri</h3>
+            <div class="detail-list">
+              <div><strong>OSCE:</strong> istasyon benzeri görüşme, süreli görev ve rubrik akışı.</div>
+              <div><strong>İletişim:</strong> empati, açıklama, onam dili ve hasta beklentisi yönetimi.</div>
+              <div><strong>Yetkinlik:</strong> rubrik, kanıt ve ilerleme izleme ile program çıktıları.</div>
+            </div>
+          </article>
+        </div>
+        <div class="note-strip">
+          <p><strong>Uyarlama ilkesi:</strong> Senaryolar Biruni'nin müfredat, dönem, dil ve fakülte değerlendirme ihtiyaçlarına göre yapılandırılmalıdır.</p>
+          <span class="pill">Tıp + diş hekimliği</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Kullanım alanları</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-11">
+      <div class="slide-number">11 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">OSCE ve yetkinlik analitiği</div>
+            <h2 class="headline headline-wide">Pratik, rubrik temelli geri bildirim ve program içgörüsü aynı döngüde birleşebilir.</h2>
+          </div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><span class="label">Hazırlık</span><strong>OSCE</strong><span>istasyon benzeri görüşme, süre ve rubrik akışı</span></div>
+          <div class="metric"><span class="label">Yetkinlik</span><strong>Rubrik</strong><span>iletişim, akıl yürütme, güvenlik ve karar sırası</span></div>
+          <div class="metric"><span class="label">Geri bildirim</span><strong>Çözümleme</strong><span>kanıta dayalı geri bildirim ve çalışma önerisi</span></div>
+          <div class="metric"><span class="label">Program</span><strong>Kohort</strong><span>zayıf alanları görmeye yarayan toplu içgörü</span></div>
+        </div>
+        <div class="phase-grid">
+          <article class="card card-strong">
+            <span class="label">Öğrenci</span>
+            <h3>Hedefli tekrar</h3>
+            <p>Öğrenci hangi anamnez sorusunu atladığını, hangi güvenlik uyarısını aldığını ve hangi yetkinlikte gelişmesi gerektiğini görebilir.</p>
+          </article>
+          <article class="card card-strong">
+            <span class="label">Fakülte</span>
+            <h3>Kalibrasyon</h3>
+            <p>Öğretim üyeleri vaka zorluğunu, rubrik yorumunu ve geri bildirim standardını birlikte ayarlayabilir.</p>
+          </article>
+          <article class="card card-strong">
+            <span class="label">Program</span>
+            <h3>Kohort analitiği</h3>
+            <p>Program yönetimi, sentetik vaka performansından müfredat geliştirme için ölçülebilir eğitim sinyalleri alabilir.</p>
+          </article>
+        </div>
+        <div class="note-strip">
+          <p><strong>Ölçme sınırı:</strong> Pilot metrikleri eğitim kalitesini izlemek içindir; tek başına resmi geçme/kalma kararı olarak konumlandırılmamalıdır.</p>
+          <span class="pill">Yetkinlik odaklı</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>OSCE ve analitik</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-12">
+      <div class="slide-number">12 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Kontrollü pilot önerisi</div>
+            <h2 class="headline headline-wide">Başlangıç kapsamı küçük, ölçülebilir ve Biruni ile birlikte netleştirilebilir.</h2>
+          </div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><span class="label">Süre</span><strong>4-6 hafta</strong><span>keşif, pilot tasarımı ve kontrollü uygulama planı</span></div>
+          <div class="metric"><span class="label">Vaka</span><strong>5-8</strong><span>fakülte tarafından gözden geçirilmiş sentetik vaka</span></div>
+          <div class="metric"><span class="label">Kohort</span><strong>30-50</strong><span>öğrenci veya küçük kontrollü başlangıç grubu</span></div>
+          <div class="metric"><span class="label">Fakülte</span><strong>2-3</strong><span>öğretim üyesi öncü/gözden geçirici</span></div>
+        </div>
+        <div class="system-rail">
+          <div class="system-step primary"><span class="num">01</span><strong>Keşif</strong><p>Program, dönem, hedef yetkinlik ve pilot paydaşları netleştirilir.</p></div>
+          <div class="system-step"><span class="num">02</span><strong>Vaka seçimi</strong><p>Tıp ve/veya diş hekimliği için 1-2 başlangıç alanı seçilir.</p></div>
+          <div class="system-step"><span class="num">03</span><strong>Rubrik</strong><p>Değerlendirme kriterleri ve çözümleme dili kalibre edilir.</p></div>
+          <div class="system-step"><span class="num">04</span><strong>Uygulama</strong><p>Sınırlı kohortla kontrollü eğitim oturumları yürütülür.</p></div>
+          <div class="system-step"><span class="num">05</span><strong>İnceleme</strong><p>Fakülte oturumları, güvenlik uyarılarını ve geri bildirimi inceler.</p></div>
+          <div class="system-step"><span class="num">06</span><strong>Karar</strong><p>Genişlet, revize et veya durdur kararı metriklerle alınır.</p></div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Önerilen başlangıç kapsamı:</strong> Kesin kapsam Biruni paydaşlarıyla birlikte netleştirilir; pilot gerçek hasta verisi olmadan kurgulanmalıdır.</p>
+          <span class="pill">Ayarlanabilir varsayım</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Kontrollü pilot</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-13">
+      <div class="slide-number">13 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Roller ve başarı ölçümü</div>
+            <h2 class="headline headline-wide">Pilotun başarısı ortak sahiplik, açık sınırlar ve ölçülebilir karar kriterleri gerektirir.</h2>
+          </div>
+        </div>
+        <div class="funding-layout">
+          <div class="ask-hero">
+            <span class="label">Biruni'den beklenenler</span>
+            <strong class="ask">Akademik sahiplik.</strong>
+            <p>Fakülte öncüleri, pilot senaryo seçimi, öğrenci grubu, düzenli inceleme toplantıları, veri/güvenlik gereksinimleri ve akademik onay süreci Biruni paydaşlarıyla belirlenir.</p>
+            <p><strong>Karar girişi:</strong> Başlangıç alanı, 5-8 vaka hedefi, pilot kohortu ve başarı ölçütleri birlikte seçilir.</p>
+          </div>
+          <div class="stack">
+            <article class="card card-strong">
+              <span class="label">ClinMira'nın sağlayacakları</span>
+              <h3>Platform ve vaka yapılandırması</h3>
+              <p>Sanal klinik gösterimi, sentetik vaka yapılandırması, güvenlik/yönetişim kurulumu ve fakülte oryantasyonu sağlanır.</p>
+            </article>
+            <article class="card card-strong">
+              <span class="label">Pilot raporlama</span>
+              <h3>Ölçüm ve iterasyon desteği</h3>
+              <p>Katılım, tekrar, rubrik kalitesi, fakülte güveni, öğrenci memnuniyeti, kullanılabilirlik ve güvenlik olayları raporlanır.</p>
+            </article>
+            <article class="card card-strong">
+              <span class="label">Başarı hedefi</span>
+              <h3>Sıfır kritik güvenlik olayı</h3>
+              <p>Gizli olgu sızıntısı ve gerçek bakım yönlendirmesi hedefi sıfırdır; metrikler resmi yeterlilik kararının yerine geçmez.</p>
+            </article>
+          </div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Değerlendirme sonucu:</strong> Pilot sonunda genişletme, revizyon veya durdurma kararı; kullanım, eğitim sinyali, güvenlik ve fakülte güveni üzerinden alınır.</p>
+          <span class="pill">Ortak pilot yönetişimi</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Roller ve metrikler</span>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-14">
+      <div class="slide-number">14 / 14</div>
+      <div class="slide-body">
+        <div class="topline">
+          <div>
+            <div class="eyebrow">Karar talebi</div>
+            <h2 class="headline headline-wide">Önerilen sonraki adım: kısa keşif atölyesi ve pilot tasarım oturumu.</h2>
+          </div>
+        </div>
+        <div class="funding-layout">
+          <div class="ask-hero">
+            <span class="label">Toplantıdan istenen karar</span>
+            <strong class="ask">Pilot yolunu başlatmak.</strong>
+            <p>Biruni üst yönetiminden beklenen karar; ilgili fakülte paydaşlarının belirlenmesi, tıp ve/veya diş hekimliği başlangıç alanının seçilmesi, gösterim ve pilot tasarım oturumunun takvimlenmesidir.</p>
+            <p><strong>Çıktı:</strong> Sentetik eğitim sınırları net, ölçülebilir ve kademeli bir ClinMira AI pilot planı.</p>
+          </div>
+          <div class="stack">
+            <article class="card card-strong">
+              <span class="label">1</span>
+              <h3>Keşif atölyesini onaylayın</h3>
+              <p>Hedef program, öğrenci kohortu, veri sınırı, akademik onay ve başarı ölçütleri netleştirilir.</p>
+            </article>
+            <article class="card card-strong">
+              <span class="label">2</span>
+              <h3>Fakülte paydaşlarını belirleyin</h3>
+              <p>2-3 öğretim üyesi öncü, pilot vaka alanı ve gözden geçirme ritmi seçilir.</p>
+            </article>
+            <article class="card card-strong">
+              <span class="label">3</span>
+              <h3>Gösterim ve tasarımı planlayın</h3>
+              <p>Ürün akışı canlı gösterilir; 5-8 sentetik vaka ve kontrollü kohort planı oluşturulur.</p>
+            </article>
+          </div>
+        </div>
+        <div class="note-strip">
+          <p><strong>Kapanış:</strong> ClinMira AI, gerçek hasta bakımına müdahale etmeden, sentetik vakalarla daha sık, güvenli ve ölçülebilir klinik pratik sağlayabilecek bir eğitim platformu olarak önerilir.</p>
+          <span class="pill">Keşif toplantısı önerilir</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>ClinMira AI | Biruni önerisi | Haziran 2026</span>
+        <span>Karar talebi</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

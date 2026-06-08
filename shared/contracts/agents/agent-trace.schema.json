@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.clinmira.local/agents/agent-trace.v1.schema.json",
+  "title": "AgentTrace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "trace_id",
+    "agent_name",
+    "mode",
+    "started_at",
+    "completed_at",
+    "status",
+    "used_fact_ids",
+    "safety_flags",
+    "redaction_applied"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "agent-trace.v1"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "const": "mock"
+    },
+    "started_at": {
+      "type": "string"
+    },
+    "completed_at": {
+      "type": "string"
+    },
+    "status": {
+      "enum": ["ok", "blocked", "disabled", "error"]
+    },
+    "used_fact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "safety_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "redaction_applied": {
+      "const": true,
+      "default": true
+    }
+  }
+}

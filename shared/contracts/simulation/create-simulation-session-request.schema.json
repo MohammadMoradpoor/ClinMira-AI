@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/create-simulation-session-request.v1.schema.json",
+  "title": "CreateSimulationSessionRequestDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_version_id"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "create-simulation-session-request.v1" },
+    "case_version_id": { "type": "string", "format": "uuid" },
+    "idempotency_key": { "type": "string", "minLength": 8 },
+    "client_request_id": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/revealed-fact-reference.v1.schema.json",
+  "title": "RevealedFactReferenceDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "session_id",
+    "fact_id",
+    "revealed_to",
+    "reveal_reason",
+    "created_at"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "revealed-fact-reference.v1" },
+    "session_id": { "type": "string", "format": "uuid" },
+    "fact_id": { "type": "string", "format": "uuid" },
+    "reveal_rule_id": { "type": "string", "format": "uuid" },
+    "revealed_by_action_id": { "type": "string", "format": "uuid" },
+    "revealed_to": {
+      "type": "string",
+      "enum": [
+        "student_payload",
+        "mock_patient_context",
+        "safety_context",
+        "evaluator_context"
+      ]
+    },
+    "reveal_reason": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

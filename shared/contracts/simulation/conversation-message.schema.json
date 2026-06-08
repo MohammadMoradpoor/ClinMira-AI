@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/conversation-message.v1.schema.json",
+  "title": "ConversationMessageDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "id",
+    "session_id",
+    "speaker",
+    "visibility",
+    "status",
+    "content",
+    "used_fact_ids",
+    "sequence",
+    "created_at"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "conversation-message.v1" },
+    "id": { "type": "string", "format": "uuid" },
+    "session_id": { "type": "string", "format": "uuid" },
+    "clinical_action_id": { "type": "string", "format": "uuid" },
+    "speaker": {
+      "type": "string",
+      "enum": ["student", "mock_patient", "system"]
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["student_safe", "internal", "faculty_only"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "streaming", "completed", "failed", "blocked"]
+    },
+    "content": { "type": "string", "minLength": 1 },
+    "used_fact_ids": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "uniqueItems": true
+    },
+    "sequence": { "type": "integer", "minimum": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="application-name" content="ClinMira AI">
+  <meta name="author" content="ClinMira AI">
+  <meta name="subject" content="Biruni Üniversitesi üst yönetimi için ClinMira AI tek sayfalık öneri özeti">
+  <meta name="keywords" content="ClinMira AI, Biruni Üniversitesi, sanal klinik simülasyonu, sentetik hasta ikizleri, tıp eğitimi, diş hekimliği eğitimi, OSCE">
+  <meta name="description" content="ClinMira AI; Biruni Üniversitesi için tıp ve diş hekimliği eğitiminde sentetik Hasta İkizleriyle kullanılabilecek yönetimli Sanal Klinik Simülasyon İşletim Sistemi önerisi.">
+  <title>ClinMira AI | Biruni Üniversitesi Yönetimli Sanal Klinik Simülasyon Önerisi</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #4b5563;
+      --muted-light: #6b7280;
+      --line: #d1d5db;
+      --line-strong: #9ca3af;
+      --surface-soft: #f3f4f6;
+      --page-shell: #e5e7eb;
+      --brand: #00b6c6;
+      --brand-ink: #002f34;
+    }
+
+    @page {
+      size: A4;
+      margin: 16mm 16mm 16mm 16mm;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, Helvetica, sans-serif;
+      font-size: 9.25pt;
+      line-height: 1.31;
+      background: #ffffff;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    @media screen {
+      body {
+        background: var(--page-shell);
+        padding: 12mm 0;
+      }
+
+      .document {
+        width: calc(210mm - 32mm);
+        min-height: calc(297mm - 32mm);
+        margin: 0 auto;
+        background: #ffffff;
+        box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.08);
+      }
+
+      .document > article {
+        padding: 16mm;
+      }
+    }
+
+    @media print {
+      body { background: #ffffff; }
+      .document {
+        width: auto;
+        min-height: auto;
+      }
+    }
+
+    .title-block {
+      position: relative;
+      padding-right: 50mm;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3.8mm;
+      margin-bottom: 4.5mm;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+
+    .brand-signature {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8pt;
+      max-width: 48mm;
+      min-height: 31pt;
+      padding: 3pt 5pt 3pt 3pt;
+      border: 0.6pt solid var(--line);
+      background: #ffffff;
+    }
+
+    .brand-signature__logo {
+      width: 31pt;
+      height: 31pt;
+      object-fit: contain;
+      display: block;
+      flex: 0 0 auto;
+      border-radius: 5pt;
+      background: #f8fbfb;
+    }
+
+    .brand-signature__name {
+      font-size: 8pt;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .document-title {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    .title-meta {
+      margin-top: 3.4mm;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7mm 10mm;
+      color: var(--muted);
+      font-size: 8.55pt;
+      line-height: 1.32;
+    }
+
+    .title-meta__item { min-width: 31mm; }
+
+    .title-meta__label {
+      display: block;
+      margin-bottom: 1.5pt;
+      color: var(--muted-light);
+      font-size: 7.8pt;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .title-meta__value {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    h2 {
+      margin: 6.8pt 0 4.3pt;
+      color: var(--ink);
+      font-size: 12.7px;
+      line-height: 1.2;
+      font-weight: 700;
+      break-after: avoid-page;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 3.6pt;
+      orphans: 3;
+      widows: 3;
+      overflow-wrap: break-word;
+    }
+
+    ul {
+      margin: 2pt 0 4.4pt 16pt;
+      padding: 0;
+    }
+
+    li {
+      margin: 1.6pt 0;
+      padding-left: 1pt;
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
+
+    strong { font-weight: 700; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.9em;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    .callout {
+      margin: 5.4pt 0 6pt;
+      padding: 5.4pt 7pt;
+      border: 0.6pt solid var(--line);
+      background: #f8fbfb;
+    }
+
+    .callout p { margin-bottom: 0; }
+  </style>
+</head>
+<body class="document document--one-pager">
+  <article>
+    <header class="title-block">
+      <div class="brand-signature" aria-label="ClinMira AI marka alanı">
+        <img class="brand-signature__logo" src="logo.png" alt="ClinMira logosu">
+        <span class="brand-signature__name">CLINMIRA AI</span>
+      </div>
+
+      <h1 class="document-title">ClinMira AI | Biruni Üniversitesi Öneri Özeti</h1>
+      <div class="title-meta">
+        <div class="title-meta__item">
+          <span class="title-meta__label">Belge Durumu</span>
+          <span class="title-meta__value">Üniversite önerisi</span>
+        </div>
+        <div class="title-meta__item">
+          <span class="title-meta__label">Hazırlık Tarihi</span>
+          <span class="title-meta__value">8 Haziran 2026</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="document-content">
+      <h2>ClinMira AI nedir?</h2>
+      <p>ClinMira AI, tıp ve diş hekimliği eğitiminde kullanılmak üzere tasarlanmış yönetimli bir <strong>Sanal Klinik Simülasyon İşletim Sistemi</strong>dir. Öğrenciler, gerçek hasta verisi kullanmadan sentetik Hasta İkizleriyle sanal klinik görüşmeleri yapabilir; anamnez, iletişim, klinik akıl yürütme, güvenlik farkındalığı ve OSCE benzeri istasyonlara hazırlık üzerinde tekrar edebilir.</p>
+
+      <h2>Neden Biruni Üniversitesi için uygun?</h2>
+      <p>Biruni'nin tıp ve diş hekimliği odağı, kontrollü klinik pratik, vaka çeşitliliği, OSCE hazırlığı ve ölçülebilir eğitim kalitesi ihtiyacını doğal olarak büyütür. ClinMira, bu ihtiyaca düşük riskli, fakülte denetimli ve Türkçe/İngilizce senaryo hazırlığına uyarlanabilir bir dijital simülasyon katmanı sunabilir.</p>
+
+      <h2>Öğrenciye sunulan deneyim</h2>
+      <p>Öğrenci atanmış vakayı açar, sentetik Hasta İkiziyle görüşür, anamnez ve iletişim pratiği yapar, muayene/istem/görüntüleme/tedavi adımı gibi kararları pilot kapsamına göre simüle eder, güvenlik uyarısı alır ve çözümleme ekranında kanıta dayalı geri bildirim görür.</p>
+
+      <h2>Öğretim üyesi ve fakülte kontrolü</h2>
+      <p>Vaka hedefleri, gizli ve açıklanabilir olgular, açılma kuralları, rubrikler, çözümleme dili ve başarı metrikleri öğretim üyeleri tarafından belirlenir. Klinik gerçek model tarafından serbestçe üretilmez; fakülte kontrollü sentetik vaka gerçeğinden gelir.</p>
+
+      <h2>Yönetimli yapay zeka mimarisi</h2>
+      <p>ClinMira basit bir sohbet botu değildir. Hedef mimari; kodla orkestre edilen simülasyon denetmeni, sınırlı uzman ajanlar, fakülte kontrollü vaka gerçeği, gizli/açık olgu ayrımı, güvenlik kapıları, bağlam duvarı, redakte edilmiş izler, yeniden oynatma/denetim izi ve ajan gözlemlenebilirliğiyle çalışacak şekilde tasarlanmıştır.</p>
+
+      <h2>Güvenlik ve eğitim sınırı</h2>
+      <p><strong>ClinMira klinik karar destek, gerçek tanı veya gerçek hasta bakımı ürünü değildir.</strong> Önerilen kullanım yalnızca sentetik eğitim vakaları içindir. Gerçek hasta verisi, gerçek klinik tavsiye, klinik uygulamaya hazır otomatik karar sistemi iddiası veya öğretim üyesinin yerini alma iddiası içermez.</p>
+
+      <h2>Önerilen pilot kapsamı</h2>
+      <p>Başlangıç kapsamı Biruni paydaşlarıyla netleştirilmek üzere 4-6 haftalık keşif ve pilot tasarımı, 5-8 fakülte onaylı sentetik vaka, 1-2 senaryo alanı, 30-50 öğrencilik kontrollü kohort ve 2-3 öğretim üyesi gözden geçiriciyi içerebilir. Pilot gerçek hasta verisi olmadan yürütülmelidir.</p>
+
+      <h2>Biruni'den beklenenler ve ClinMira'nın sağlayacakları</h2>
+      <p>Biruni tarafında fakülte temsilcileri, pilot senaryo seçimi, öğrenci grubu, akademik onay akışı ve veri/güvenlik gereksinimleri belirlenir. ClinMira tarafında platform gösterimi, sentetik vaka yapılandırması, sanal klinik iş akışı, güvenlik/yönetişim kurulumu, fakülte oryantasyonu, pilot raporlama ve iterasyon desteği sağlanır.</p>
+
+      <h2>Başarı ölçümü ve karar</h2>
+      <p>Pilot; katılım, tekrar sayısı, görev tamamlama, rubrik kalitesi, fakülte güveni, öğrenci memnuniyeti, algılanan OSCE hazırlığı, kullanılabilirlik sorunları, gizli olgu sızıntısı ve gerçek bakım yönlendirmesi hedefinin sıfır olması üzerinden değerlendirilir. Son karar genişlet, revize et veya durdur çerçevesiyle alınabilir.</p>
+
+      <div class="callout">
+        <p><strong>Sonraki adım:</strong> Rektörlük ve ilgili fakülte paydaşlarının katılacağı kısa bir keşif atölyesiyle pilot yolu, ilk vaka alanları, başarı ölçütleri ve canlı gösterim takvimi onaylanmalıdır.</p>
+      </div>
+    </main>
+  </article>
+</body>
+</html>

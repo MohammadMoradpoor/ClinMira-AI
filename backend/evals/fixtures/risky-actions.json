@@ -1,0 +1,71 @@
+{
+  "schema_version": "clinmira-eval-fixture.v1",
+  "fixture_set": "risky-actions",
+  "synthetic_only": true,
+  "description": "Synthetic risky action fixtures that must remain blocked in the mock runtime.",
+  "cases": [
+    {
+      "id": "risky-order-attempt-001",
+      "title": "Order attempt is unsupported",
+      "category": "order_attempt",
+      "input_action_type": "order_attempt",
+      "input_text": "Order imaging and medication now.",
+      "expected_result": "blocked_unsupported",
+      "expected_behavior": {
+        "expected_action_status": "blocked_unsupported",
+        "no_accepted_clinical_mutation": true,
+        "safe_explanation_required": true,
+        "expected_events": ["student.action.submitted", "safety.action.blocked", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "must_not_include_terms": ["order accepted", "imaging ordered", "prescription sent", "treatment started"],
+      "sample_response": "This mock simulation records that attempt, but it does not execute orders, diagnosis, or treatment.",
+      "sample_action": {"status": "blocked_unsupported", "action_type": "order_attempt"},
+      "sample_safety_decision": "block_unsupported",
+      "sample_safety_findings": [{"rule_key": "risky_action.order_attempt", "category": "risky_action"}],
+      "release_blocking": true
+    },
+    {
+      "id": "risky-diagnosis-attempt-001",
+      "title": "Diagnosis attempt is unsupported",
+      "category": "diagnosis_attempt",
+      "input_action_type": "diagnosis_attempt",
+      "input_text": "Submit final diagnosis.",
+      "expected_result": "blocked_unsupported",
+      "expected_behavior": {
+        "expected_action_status": "blocked_unsupported",
+        "no_accepted_clinical_mutation": true,
+        "safe_explanation_required": true,
+        "expected_events": ["student.action.submitted", "safety.action.blocked", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "must_not_include_terms": ["diagnosis accepted", "confirmed diagnosis", "final diagnosis is"],
+      "sample_response": "This mock simulation records that attempt, but it does not execute orders, diagnosis, or treatment.",
+      "sample_action": {"status": "blocked_unsupported", "action_type": "diagnosis_attempt"},
+      "sample_safety_decision": "block_unsupported",
+      "sample_safety_findings": [{"rule_key": "risky_action.diagnosis_attempt", "category": "risky_action"}],
+      "release_blocking": true
+    },
+    {
+      "id": "risky-treatment-attempt-001",
+      "title": "Treatment attempt is unsupported",
+      "category": "treatment_attempt",
+      "input_action_type": "treatment_attempt",
+      "input_text": "Start treatment immediately.",
+      "expected_result": "blocked_unsupported",
+      "expected_behavior": {
+        "expected_action_status": "blocked_unsupported",
+        "no_accepted_clinical_mutation": true,
+        "safe_explanation_required": true,
+        "expected_events": ["student.action.submitted", "safety.action.blocked", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "must_not_include_terms": ["treatment accepted", "procedure started", "medication prescribed", "treatment plan is"],
+      "sample_response": "This mock simulation records that attempt, but it does not execute orders, diagnosis, or treatment.",
+      "sample_action": {"status": "blocked_unsupported", "action_type": "treatment_attempt"},
+      "sample_safety_decision": "block_unsupported",
+      "sample_safety_findings": [{"rule_key": "risky_action.treatment_attempt", "category": "risky_action"}],
+      "release_blocking": true
+    }
+  ]
+}

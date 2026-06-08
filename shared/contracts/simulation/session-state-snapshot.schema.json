@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/session-state-snapshot.v1.schema.json",
+  "title": "SessionStateSnapshotDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "id",
+    "session_id",
+    "state_version",
+    "reason",
+    "snapshot",
+    "created_at"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "session-state-snapshot.v1" },
+    "id": { "type": "string", "format": "uuid" },
+    "session_id": { "type": "string", "format": "uuid" },
+    "state_version": { "type": "integer", "minimum": 1 },
+    "reason": { "type": "string", "minLength": 1 },
+    "snapshot": {
+      "type": "object",
+      "description": "Projection only. The canonical clinical fact source remains fact_ledger.",
+      "additionalProperties": true
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/realtime-stream.v1.schema.json",
+  "title": "RealtimeStreamFrame",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "frame_type",
+    "session_id",
+    "delivery_only",
+    "data"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "clinmira.realtime-stream.v1" },
+    "frame_type": {
+      "type": "string",
+      "enum": [
+        "replay_event",
+        "replay_complete"
+      ]
+    },
+    "session_id": { "type": "string", "format": "uuid" },
+    "delivery_only": { "type": "boolean", "const": true },
+    "data": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

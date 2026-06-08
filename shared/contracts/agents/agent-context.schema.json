@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.clinmira.local/agents/agent-context.v1.schema.json",
+  "title": "AgentContext",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "allowed_fact_summaries"],
+  "properties": {
+    "contract_version": {
+      "const": "agent-context.v1"
+    },
+    "allowed_fact_summaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fact_id", "visibility", "student_safe_summary"],
+        "properties": {
+          "fact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "visibility": {
+            "enum": ["baseline_visible", "revealed", "student_safe"]
+          },
+          "student_safe_summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "revealed_fact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "student_action_text": {
+      "type": "string"
+    },
+    "communication_style": {
+      "type": "string"
+    },
+    "safety_metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean", "null"]
+      }
+    }
+  }
+}

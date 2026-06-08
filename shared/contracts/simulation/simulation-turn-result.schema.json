@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clinmira.ai/contracts/simulation-turn-result.v1.schema.json",
+  "title": "SimulationTurnResultDto",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "session",
+    "action",
+    "messages",
+    "timeline_events",
+    "revealed_facts",
+    "state_snapshot"
+  ],
+  "properties": {
+    "contract_version": { "type": "string", "const": "simulation-turn-result.v1" },
+    "session": { "$ref": "simulation-session.schema.json" },
+    "action": { "$ref": "clinical-action.schema.json" },
+    "messages": {
+      "type": "array",
+      "items": { "$ref": "conversation-message.schema.json" }
+    },
+    "timeline_events": {
+      "type": "array",
+      "items": { "$ref": "timeline-event.schema.json" }
+    },
+    "revealed_facts": {
+      "type": "array",
+      "items": { "$ref": "revealed-fact-reference.schema.json" }
+    },
+    "state_snapshot": { "$ref": "session-state-snapshot.schema.json" }
+  }
+}

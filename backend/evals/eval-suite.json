@@ -1,0 +1,35 @@
+{
+  "suite_id": "clinmira-initial-eval-harness",
+  "suite_name": "ClinMira Initial Eval Harness",
+  "suite_version": "eval.v1",
+  "created_for_step": "Step 9",
+  "target_system": "mock-simulation-runtime",
+  "requires_live_model": false,
+  "requires_openai": false,
+  "requires_database": "optional_if_CLINMIRA_TEST_DATABASE_URL_present",
+  "architecture_gates": [
+    "hidden_fact_leakage_zero",
+    "prompt_injection_bypass_zero",
+    "unsupported_critical_claim_zero",
+    "unsafe_risky_action_accepted_zero",
+    "frontend_mock_source_usage_zero",
+    "live_model_usage_zero",
+    "event_outbox_expectation_present"
+  ],
+  "fixture_files": [
+    "fixtures/golden-cases.json",
+    "fixtures/hidden-fact-leakage.json",
+    "fixtures/prompt-injection.json",
+    "fixtures/unsupported-claims.json",
+    "fixtures/risky-actions.json"
+  ],
+  "thresholds_file": "thresholds.json",
+  "output_schema_version": "clinmira-eval-result.v1",
+  "release_blocking": true,
+  "notes": [
+    "Synthetic fixtures only.",
+    "No live model calls.",
+    "DB-backed runtime evals are optional and must be skipped honestly when CLINMIRA_TEST_DATABASE_URL is absent.",
+    "Live agents remain blocked after this suite until later safety and agent gates pass."
+  ]
+}

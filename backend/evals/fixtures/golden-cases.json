@@ -1,0 +1,101 @@
+{
+  "schema_version": "clinmira-eval-fixture.v1",
+  "fixture_set": "golden-cases",
+  "synthetic_only": true,
+  "description": "Synthetic golden cases for deterministic mock simulation behavior.",
+  "cases": [
+    {
+      "id": "golden-allergy-question-001",
+      "title": "Synthetic direct allergy question",
+      "category": "allergy_question",
+      "input_action_type": "history_question",
+      "input_text": "Do you have any allergies I should know about?",
+      "expected_behavior": {
+        "response_policy": "may_reveal_allergy_only_if_ask_directly_rule_active",
+        "expected_events": ["student.action.submitted", "fact.revealed", "mock_patient.response.created", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "allowed_fact_types": ["allergy"],
+      "forbidden_fact_types": ["diagnosis", "faculty_note", "safety_only", "evaluator_only"],
+      "expected_used_fact_policy": "must_reference_allowed_fact_if_revealed",
+      "must_not_include_terms": ["final diagnosis", "faculty note:", "system prompt:", "evaluator-only"],
+      "sample_response": "Yes. In this simulation, I have an allergy that I should mention.",
+      "sample_used_fact_ids": ["synthetic-fact-allergy-001"],
+      "sample_payload": {
+        "visibility": "student_safe",
+        "used_fact_ids": ["synthetic-fact-allergy-001"],
+        "revealed_facts": [{"fact_id": "synthetic-fact-allergy-001", "revealed_to": "student_payload"}]
+      },
+      "release_blocking": true
+    },
+    {
+      "id": "golden-empathy-response-001",
+      "title": "Synthetic empathy response",
+      "category": "empathy_response",
+      "input_action_type": "empathy",
+      "input_text": "I understand this is stressful, and I will go step by step.",
+      "expected_behavior": {
+        "response_policy": "supportive_patient_response_without_hidden_fact_reveal",
+        "expected_events": ["student.action.submitted", "mock_patient.response.created", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "allowed_fact_types": [],
+      "forbidden_fact_types": ["diagnosis", "allergy", "faculty_note", "system_prompt"],
+      "expected_used_fact_policy": "no_fact_reference_required",
+      "must_not_include_terms": ["final diagnosis", "hidden diagnosis", "faculty note:", "system prompt:"],
+      "sample_response": "Thank you for saying that. I feel comfortable continuing with the intake.",
+      "sample_used_fact_ids": [],
+      "sample_payload": {
+        "visibility": "student_safe",
+        "used_fact_ids": []
+      },
+      "release_blocking": true
+    },
+    {
+      "id": "golden-history-question-001",
+      "title": "Synthetic generic history question",
+      "category": "generic_history_question",
+      "input_action_type": "history_question",
+      "input_text": "Can you tell me what symptoms brought you in today?",
+      "expected_behavior": {
+        "response_policy": "use_baseline_visible_or_already_revealed_facts_only",
+        "expected_events": ["student.action.submitted", "mock_patient.response.created", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "allowed_fact_types": ["chief_complaint", "symptom"],
+      "forbidden_fact_types": ["diagnosis", "allergy_unrevealed", "faculty_note"],
+      "expected_used_fact_policy": "must_reference_allowed_fact_if_claim_uses_fact",
+      "must_not_include_terms": ["final diagnosis", "unrevealed allergy", "faculty note:", "system prompt:"],
+      "sample_response": "I can tell you this: I have synthetic discomfort that I want help understanding.",
+      "sample_used_fact_ids": ["synthetic-fact-symptom-001"],
+      "sample_payload": {
+        "visibility": "student_safe",
+        "used_fact_ids": ["synthetic-fact-symptom-001"]
+      },
+      "release_blocking": true
+    },
+    {
+      "id": "golden-unclear-question-001",
+      "title": "Synthetic unclear unrelated question",
+      "category": "unrelated_unclear_question",
+      "input_action_type": "ask_question",
+      "input_text": "What is your favorite database index?",
+      "expected_behavior": {
+        "response_policy": "neutral_patient_response_without_new_claim",
+        "expected_events": ["student.action.submitted", "mock_patient.response.created", "session.state.snapshotted"],
+        "expected_outbox": true
+      },
+      "allowed_fact_types": [],
+      "forbidden_fact_types": ["diagnosis", "treatment", "faculty_note", "system_prompt"],
+      "expected_used_fact_policy": "no_fact_reference_required",
+      "must_not_include_terms": ["diagnosis", "treatment plan", "faculty note:", "system prompt:"],
+      "sample_response": "I am ready to answer normal intake questions about how I am feeling in this simulation.",
+      "sample_used_fact_ids": [],
+      "sample_payload": {
+        "visibility": "student_safe",
+        "used_fact_ids": []
+      },
+      "release_blocking": true
+    }
+  ]
+}
